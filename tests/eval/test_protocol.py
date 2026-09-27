@@ -71,3 +71,62 @@ def test_stream_chunk_scores_and_roundtrip(tmp_path: Path) -> None:
     again = ScoreTable.load(out, "c1")
     assert again.wake_words == ("beep",)
     assert np.allclose(again.scores, table.scores)
+
+
+def test_run_evaluation_end_to_end(tmp_path: Path) -> None:
+    """A toy engine over a two-chunk manifest produces results with the expected layout."""
+    import json
+
+    import polars as pl
+
+    from wakewordworld.eval.run import EvalPlan, run_evaluation
+    from wakewordworld.util.paths import DataRoot
+
+    root = DataRoot(tmp_path / "data")
+    root.ensure()
+    src = "toy"
+    (root.chunks / src).mkdir(parents=True)
+    rows = []
+    for i, cid in enumerate(("c1", "c2")):
+        _write(root.chunks / src / f"{cid}.flac", 30.0)
+        rows.append(
+            {
+                "chunk_id": cid,
+                "file_id": f"f{i}",
+                "item_id": f"i{i}",
+                "source_id": src,
+                "language": "en",
+                "licence_spdx": "CC0-1.0",
+                "licence_tier": "A",
+                "attribution": "toy",
+                "item_url": "https://example.org/x",
+                "start_s": 0.0,
+                "duration_s": 30.0,
+                "domain": "podcast",
+                "microphone": "close",
+            }
+        )
+    mdir = tmp_path / "manifests" / "0.0.1"
+    mdir.mkdir(parents=True)
+    (mdir / "chunks.jsonl").write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+    (mdir / "release.json").write_text(json.dumps({"version": "0.0.1"}), encoding="utf-8")
+    # word index: the "beep" occurs 1.0-2.0 s in c1 only
+    pl.DataFrame(
+        {"chunk_id": ["c1"], "word": ["beep"], "start_s": [1.0], "end_s": [2.0]}
+    ).write_parquet(root.index / f"{src}.parquet")
+    plan = EvalPlan(
+        manifest_dir=mdir,
+        engine_id="toy",
+        engine_config={},
+        wake_words={"beep": "beep"},
+        n_boot=20,
+        confusables={"beep": []},
+    )
+    run_dir = run_evaluation(root, EnergyEngine(), plan, tmp_path / "results")
+    summary = pl.read_parquet(run_dir / "summary.parquet")
+    all_row = summary.filter(pl.col("slice_type") == "all").row(0, named=True)
+    assert all_row["n_positives"] == 1
+    assert all_row["n_units"] == 2
+    assert (run_dir / "run.json").exists()
+    assert (run_dir / "curves.parquet").exists()
+    assert (root.scores / "toy").exists()

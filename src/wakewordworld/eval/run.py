@@ -147,6 +147,7 @@ def _score_all(
     engine: Engine, rows: list[ChunkRow], data_root: DataRoot, *, force: bool
 ) -> tuple[dict[str, ScoreTable], dict[str, StreamStats]]:
     out_dir = _scores_dir(data_root, engine)
+    out_dir.mkdir(parents=True, exist_ok=True)
     tables: dict[str, ScoreTable] = {}
     stats: dict[str, StreamStats] = {}
     stats_path = out_dir / "stats.jsonl"
@@ -180,9 +181,9 @@ def _slices(rows: list[ChunkRow]) -> dict[tuple[str, str], set[str]]:
     """Slice definitions: (type, value) -> set of chunk ids."""
     out: dict[tuple[str, str], set[str]] = {("all", "all"): {r.chunk_id for r in rows}}
     for r in rows:
-        out.setdefault(("language", r.language), set()).add(r.chunk_id)
-        out.setdefault(("domain", r.domain), set()).add(r.chunk_id)
-        out.setdefault(("tier", r.licence_tier), set()).add(r.chunk_id)
+        out.setdefault(("language", str(r.language)), set()).add(r.chunk_id)
+        out.setdefault(("domain", str(r.domain)), set()).add(r.chunk_id)
+        out.setdefault(("tier", str(r.licence_tier)), set()).add(r.chunk_id)
         out.setdefault(("source", r.source_id), set()).add(r.chunk_id)
         out.setdefault(("sealed", "yes" if r.sealed else "no"), set()).add(r.chunk_id)
     return out
@@ -225,7 +226,7 @@ def run_evaluation(data_root: DataRoot, engine: Engine, plan: EvalPlan, out_dir:
         if plan.confusables is not None:
             confusables = list(plan.confusables.get(phrase, []))
         else:
-            lang = rows[0].language if len({r.language for r in rows}) == 1 else "en"
+            lang = str(rows[0].language) if len({r.language for r in rows}) == 1 else "en"
             confusables = _confusables_for(data_root, phrase, lang, index)
         occ_df = find_occurrences(index, phrase, confusables=confusables)
         occ = occurrences_by_chunk(occ_df)
@@ -340,7 +341,7 @@ def run_evaluation(data_root: DataRoot, engine: Engine, plan: EvalPlan, out_dir:
                     "chunk_id": c,
                     "file_id": r.file_id,
                     "source_id": r.source_id,
-                    "language": r.language,
+                    "language": str(r.language),
                     "duration_s": r.duration_s,
                     "n_occurrences": sum(1 for o in occ.get(c, []) if not o.confusable),
                     "rtf": stats[c].rtf if c in stats else None,
@@ -368,7 +369,7 @@ def run_evaluation(data_root: DataRoot, engine: Engine, plan: EvalPlan, out_dir:
         detection=dict(plan.detection.__dict__),
         n_chunks=len(rows),
         audio_hours=sum(r.duration_s for r in rows) / 3600.0,
-        languages=sorted({r.language for r in rows}),
+        languages=sorted({str(r.language) for r in rows}),
     )
     run_dir = out_dir / run_id
     curves = (

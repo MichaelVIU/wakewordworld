@@ -5,7 +5,7 @@ domain: podcast
 microphone: close
 access:
   type: internet_archive
-  query: "collection:hackerpublicradio AND mediatype:audio"
+  query: "collection:hackerpublicradio AND mediatype:audio AND identifier:hpr*"
   licence_urls:
     - "http://creativecommons.org/licenses/by-sa/4.0/"
     - "https://creativecommons.org/licenses/by-sa/4.0/"
@@ -22,10 +22,12 @@ licence:
 filters:
   min_duration_s: 300
 expected_hours: 2500
+has_transcripts: true
 background_tags: [home, kitchen, car, outdoors]
 homepage: https://hackerpublicradio.org
 notes: >
   Community show, one episode per weekday since 2005, 4,441 items on the Internet Archive.
   Many multi-host chats recorded at home with natural background. The per-item
   licenseurl on archive.org is authoritative; items without a CC BY-SA licenseurl are
-  kept as tier B.
+  kept as tier B. Episodes before roughly 2019 carry CC BY-NC-SA and are tier B;
+  later ones CC BY-SA 4.0. Most items ship SubRip/WebVTT transcripts, used as references.

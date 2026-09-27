@@ -43,6 +43,18 @@ def _pick_file(files: list[dict[str, Any]], formats: list[str]) -> dict[str, Any
     return None
 
 
+_TRANSCRIPT_FORMATS = ("Web Video Text Tracks", "SubRip")
+
+
+def _pick_transcript(files: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Prefer a WebVTT, then SubRip, caption file when the item ships one."""
+    for fmt in _TRANSCRIPT_FORMATS:
+        for f in files:
+            if f.get("format") == fmt and "_source" not in str(f.get("name", "")):
+                return f
+    return None
+
+
 @registry.register("internet_archive")
 class InternetArchiveFetcher:
     """Fetch audio items matching an advancedsearch query."""
@@ -107,6 +119,7 @@ class InternetArchiveFetcher:
                     evidence_url=METADATA_URL.format(identifier=identifier),
                 )
                 media_url = DOWNLOAD_URL.format(identifier=identifier, name=chosen["name"])
+                transcript = _pick_transcript(files)
                 yield FetchedItem(
                     item_id=item_id_for(spec.id, media_url),
                     source_id=spec.id,
@@ -119,6 +132,11 @@ class InternetArchiveFetcher:
                     language=language,
                     licence=licence,
                     media_type=_mime_for(str(chosen.get("format", ""))),
+                    transcript_url=(
+                        DOWNLOAD_URL.format(identifier=identifier, name=transcript["name"])
+                        if transcript
+                        else None
+                    ),
                     extra={
                         "identifier": str(identifier),
                         "format": str(chosen.get("format", "")),

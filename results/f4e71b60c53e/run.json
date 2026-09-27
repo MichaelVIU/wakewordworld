@@ -1,0 +1,45 @@
+{
+  "run_id": "f4e71b60c53e",
+  "created_at": "2026-09-27T10:26:31+00:00",
+  "harness_version": "0.1.0.dev0",
+  "manifest_version": "0.0.1",
+  "manifest_dir": "manifests/0.0.1-internal",
+  "engine_id": "openwakeword",
+  "engine_version": "0.6.0",
+  "model_hashes": {
+    "alexa": "6ff566a01d12670e8d9e3c59da32651db1575d17272a601b7f8a39283dfbae3e",
+    "hey_jarvis": "94a13cfe60075b132f6a472e7e462e8123ee70861bc3fb58434a73712ee0d2cb",
+    "hey_mycroft": "c2a311e8fa1338de89c31b3b46dc4dffd4af2f9a8d6ddead48893c2d301b1f18"
+  },
+  "engine_config": {
+    "models": [
+      "alexa",
+      "hey_jarvis",
+      "hey_mycroft"
+    ],
+    "inference_framework": "onnx",
+    "vad_threshold": 0.0,
+    "enable_speex_noise_suppression": false
+  },
+  "wake_words": {
+    "alexa": "alexa",
+    "hey_jarvis": "hey jarvis",
+    "hey_mycroft": "hey mycroft"
+  },
+  "detection": {
+    "debounce_s": 1.0,
+    "pre_s": 0.5,
+    "post_s": 1.0
+  },
+  "n_chunks": 47,
+  "audio_hours": 11.268306805555556,
+  "hardware": "Darwin arm64 arm",
+  "container_digest": null,
+  "notes": null,
+  "languages": [
+    "de",
+    "en",
+    "es",
+    "fr"
+  ]
+}

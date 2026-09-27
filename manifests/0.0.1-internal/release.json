@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "schema_version": 1,
+  "created_at": "2026-09-27T09:58:14.035850Z",
+  "git_commit": "f0de87eb96b6356abc011f86c10804f48ec3c5dd",
+  "n_chunks": 47,
+  "n_files": 13,
+  "hours_by_language": {
+    "de": 1.4424,
+    "en": 0.7163,
+    "es": 5.2635,
+    "fr": 3.8461
+  },
+  "hours_by_tier": {
+    "A": 11.2683
+  },
+  "sources": [
+    "espika_fm",
+    "hackerpublicradio",
+    "kde_espana",
+    "kuechenradio",
+    "libre_a_vous"
+  ],
+  "notes": null
+}

@@ -40,3 +40,6 @@ manifests/**/sealed/
 .DS_Store
 .idea/
 .vscode/
+
+# Generated report site (published via Pages from CI)
+site/

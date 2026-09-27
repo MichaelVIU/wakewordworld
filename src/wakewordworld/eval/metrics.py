@@ -207,7 +207,7 @@ def bootstrap_summary(
     frr_samples: dict[float, list[float]] = {t: [] for t in fa_targets}
     aut_samples: list[float] = []
     for _ in range(n_boot):
-        idx: NDArray[np.intp] = rng.integers(0, u, size=u).astype(np.intp)
+        idx = np.asarray(rng.integers(0, u, size=u), dtype=np.intp)
         s = summarise(table.subset(idx), fa_targets)
         for t in fa_targets:
             v = s.frr_at_fa[t]

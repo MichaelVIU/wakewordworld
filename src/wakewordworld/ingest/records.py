@@ -54,6 +54,10 @@ class FileRecord(BaseModel):
     clipping_ratio: float | None = None
     fingerprint: str | None = Field(default=None, description="Chromaprint fingerprint (base64).")
     duplicate_of: str | None = Field(default=None, description="file_id of the kept duplicate.")
+    member_path: str | None = Field(
+        default=None,
+        description="For archive members: path inside the archive; for parquet rows: 'row:<n>'.",
+    )
 
 
 class ChunkRecord(BaseModel):

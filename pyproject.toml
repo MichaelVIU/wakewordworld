@@ -55,7 +55,7 @@ diarize = [
 ]
 engines-oww = ["openwakeword>=0.6"]
 engines-mww = ["pymicro-wakeword>=2.0"]
-engines-vosk = ["vosk>=0.3.45"]
+engines-vosk = ["vosk>=0.3.44"]
 engines-livekit = ["livekit-wakeword>=0.2"]
 engines-ewn = ["EfficientWord-Net>=1.0.5"]
 engines-sherpa = ["sherpa-onnx>=1.10"]
@@ -126,3 +126,9 @@ markers = [
 [tool.coverage.run]
 source = ["wakewordworld"]
 branch = true
+
+[tool.uv]
+# Make sure resolution picks versions with wheels for Apple Silicon too (vosk).
+required-environments = [
+  "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]

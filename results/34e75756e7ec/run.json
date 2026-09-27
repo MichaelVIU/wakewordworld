@@ -1,0 +1,33 @@
+{
+  "run_id": "34e75756e7ec",
+  "created_at": "2026-09-27T11:28:15+00:00",
+  "harness_version": "0.1.0.dev0",
+  "manifest_version": "0.0.1",
+  "manifest_dir": "manifests/0.0.1-internal",
+  "engine_id": "vosk",
+  "engine_version": "0.3.44",
+  "model_hashes": {
+    "vosk-model-small-de-0.15": "b7e53c90b1f0a38456f4cd62b366ecd58803cd97cd42b06438e2c131713d5e43",
+    "vosk-model-small-de-0.15/dir": "f8c37beffa4ff4c37e66ca869e9f947b3e309e5a8bf3f96a811635e31eb0cf8b"
+  },
+  "engine_config": {
+    "model": "vosk-model-small-de-0.15",
+    "grammar": "[\"andi\", \"[unk]\"]"
+  },
+  "wake_words": {
+    "andi": "andi"
+  },
+  "detection": {
+    "debounce_s": 1.0,
+    "pre_s": 0.5,
+    "post_s": 1.0
+  },
+  "n_chunks": 6,
+  "audio_hours": 1.4424404687499999,
+  "hardware": "Darwin arm64 arm",
+  "container_digest": null,
+  "notes": null,
+  "languages": [
+    "de"
+  ]
+}

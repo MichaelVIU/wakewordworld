@@ -1,0 +1,9 @@
+wake_word,slice_type,slice_value,n_units,n_chunks,n_positives,n_confusable,negative_hours,frr_at_0_1,frr_at_0_5,frr_at_1,frr_at_3,frr_at_0_1_lo,frr_at_0_1_hi,frr_at_0_5_lo,frr_at_0_5_hi,frr_at_1_lo,frr_at_1_hi,frr_at_3_lo,frr_at_3_hi,threshold_at_0_5,eer,aut,aut_lo,aut_hi,confusable_fa_per_1000,latency_p50_s,latency_p90_s,latency_p99_s,rtf_median
+víctor,all,all,5,22,10,6,5.2593678125,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.007640927343751408
+víctor,domain,podcast,3,6,10,6,1.2828380381944442,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.008362388897278097
+víctor,domain,radio,2,16,0,0,3.976529774305556,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,NaN,NaN,NaN,NaN,,,,,0.00730196616854502
+víctor,language,es,5,22,10,6,5.2593678125,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.007640927343751408
+víctor,sealed,no,5,22,10,6,5.2593678125,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.007640927343751408
+víctor,source,espika_fm,2,16,0,0,3.976529774305556,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,NaN,NaN,NaN,NaN,,,,,0.00730196616854502
+víctor,source,kde_espana,3,6,10,6,1.2828380381944442,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.008362388897278097
+víctor,tier,A,5,22,10,6,5.2593678125,1.0,1.0,1.0,1.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.5,0.5,1.0000000000000002,NaN,NaN,0.0,,,,0.007640927343751408

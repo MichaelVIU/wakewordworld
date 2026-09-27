@@ -1,0 +1,23 @@
+id: radiotux
+name: RadioTux
+languages: [de]
+domain: podcast
+microphone: close
+access:
+  type: rss
+  url: https://blog.radiotux.de/feed/podcast/
+  read_item_licence: true
+licence:
+  spdx: CC-BY-SA-3.0
+  evidence:
+    type: feed_tag
+    url: https://blog.radiotux.de/feed/podcast/
+    quote: "<copyright>CC BY-SA 3.0 Unported</copyright>"
+    captured_at: 2026-09-26
+  attribution: "RadioTux, {title}, CC BY-SA 3.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 300
+background_tags: [studio]
+homepage: https://blog.radiotux.de
+notes: Multi-host Linux talk and interviews since 2004; hosts address each other by first name.

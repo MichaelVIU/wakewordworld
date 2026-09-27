@@ -1,0 +1,26 @@
+id: capitole_du_libre
+name: Capitole du Libre (talks and round tables)
+languages: [fr]
+domain: conference
+microphone: far
+access:
+  type: peertube
+  base_url: https://videos.capitoledulibre.org
+  licence_ids: [1, 2, 7]
+  language_ids: [fr]
+  local_only: true
+licence:
+  spdx: CC-BY-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://videos.capitoledulibre.org/api/v1/videos?count=1
+    quote: "licence.id=1 (Attribution) on 413 of 414 hours"
+    captured_at: 2026-09-26
+  attribution: "{author}: {title}, Capitole du Libre, CC BY 4.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 379
+background_tags: [audience, hall_reverb]
+homepage: https://capitoledulibre.org
+notes: 570 videos since 2012 with audience Q&A; ten "table ronde" sessions.

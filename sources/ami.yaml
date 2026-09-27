@@ -1,0 +1,32 @@
+id: ami
+name: AMI Meeting Corpus (single distant microphone)
+languages: [en]
+domain: meeting
+microphone: far
+access:
+  type: http_archive
+  urls:
+    - https://groups.inf.ed.ac.uk/ami/AMICorpusAnnotations/ami_public_manual_1.6.2.zip
+  audio_glob: "**/*.Array1-01.wav"
+  transcript_glob: "**/words/*.xml"
+  transcript_format: ami_nxt
+licence:
+  spdx: CC-BY-4.0
+  evidence:
+    type: page
+    url: https://groups.inf.ed.ac.uk/ami/corpus/license.shtml
+    quote: "The AMI Meeting Corpus is licensed under the Creative Commons Attribution 4.0 International Licence (CC BY 4.0)."
+    captured_at: 2026-09-26
+  attribution: "AMI Meeting Corpus (Carletta et al., 2005), CC BY 4.0, {url}"
+filters:
+  min_duration_s: 300
+expected_hours: 100
+has_transcripts: true
+background_tags: [office, far_field]
+homepage: https://groups.inf.ed.ac.uk/ami/corpus/
+notes: >
+  100 h of scenario and real meetings, mostly non-native English; word-level timings in
+  the NXT annotation zip; audio per meeting via https://groups.inf.ed.ac.uk/ami/AMICorpusMirror/amicorpus/<meeting>/audio/<meeting>.Array1-01.wav
+  (far-field array channel 1). Meeting ids are added to `urls` by the ingest helper
+  `scripts/expand_ami.py` once the annotation zip is downloaded. Participants use real
+  first names (kate, david, christine, ed, matthew, sarah, susan).

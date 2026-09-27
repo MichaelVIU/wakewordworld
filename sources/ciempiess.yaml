@@ -1,0 +1,25 @@
+id: ciempiess
+name: CIEMPIESS Light (spontaneous Mexican radio)
+languages: [es]
+domain: radio
+microphone: broadcast
+access:
+  type: huggingface
+  repo_id: ciempiess/ciempiess_light
+  audio_column: audio
+  text_column: normalized_text
+licence:
+  spdx: CC-BY-SA-4.0
+  evidence:
+    type: dataset_card
+    url: https://huggingface.co/datasets/ciempiess/ciempiess_light
+    quote: "license: cc-by-sa-4.0"
+    captured_at: 2026-09-26
+  attribution: "CIEMPIESS Light (Hernández Mena, UNAM), CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 1
+expected_hours: 18.4
+has_transcripts: true
+background_tags: [studio]
+homepage: https://huggingface.co/ciempiess
+notes: 18.4 h of spontaneous Mexican Spanish radio speech from 87 speakers; siblings BALANCE, FEM, TEST and TELEconCIENCIA add up to about 90 h under the same licence.

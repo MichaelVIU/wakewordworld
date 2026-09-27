@@ -1,0 +1,28 @@
+id: una_radio_muchas_voces
+name: Una Radio Muchas Voces (Córdoba, Argentina)
+languages: [es]
+domain: radio
+microphone: broadcast
+access:
+  type: internet_archive
+  query: "creator:\"Una Radio Muchas Voces\" AND mediatype:audio"
+  licence_urls:
+    - "http://creativecommons.org/licenses/by-sa/4.0/"
+    - "https://creativecommons.org/licenses/by-sa/4.0/"
+    - "http://creativecommons.org/licenses/by/4.0/"
+    - "https://creativecommons.org/licenses/by/4.0/"
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://archive.org/advancedsearch.php?q=creator%3A%22Una+Radio+Muchas+Voces%22&fl%5B%5D=licenseurl&output=json
+    quote: "licenseurl: http://creativecommons.org/licenses/by-sa/4.0/ (majority) and by/4.0/"
+    captured_at: 2026-09-26
+  attribution: "Una Radio Muchas Voces, {title}, {licence}, {url}"
+filters:
+  min_duration_s: 600
+expected_hours: 1160
+background_tags: [studio, phone_in, music]
+homepage: https://archive.org/search?query=creator%3A%22Una+Radio+Muchas+Voces%22
+notes: "Community radio, 2,538 items: debates, interviews, phone-ins; Rioplatense Spanish; uneven metadata."

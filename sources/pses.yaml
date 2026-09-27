@@ -1,0 +1,27 @@
+id: pses
+name: Pas Sage en Seine
+languages: [fr]
+domain: conference
+microphone: far
+access:
+  type: peertube
+  base_url: https://video.passageenseine.fr
+  licence_ids: [1, 2, 7]
+  language_ids: [fr]
+  local_only: true
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://video.passageenseine.fr/api/v1/videos?count=1
+    quote: "licence.id=2 (Attribution - Share Alike) on 368 hours; PD on 1.3 hours"
+    captured_at: 2026-09-26
+  attribution: "{author}: {title}, Pas Sage en Seine, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 368
+has_transcripts: true
+background_tags: [audience, hall_reverb]
+homepage: https://passageenseine.fr
+notes: 430 videos; automatic French captions on all sampled videos; seven "débat" sessions.

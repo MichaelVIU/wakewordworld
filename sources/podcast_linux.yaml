@@ -1,0 +1,23 @@
+id: podcast_linux
+name: Podcast Linux
+languages: [es]
+domain: podcast
+microphone: close
+access:
+  type: rss
+  url: https://podcastlinux.com/feed
+  read_item_licence: true
+licence:
+  spdx: CC-BY-SA-4.0
+  evidence:
+    type: feed_tag
+    url: https://podcastlinux.com/feed
+    quote: "<copyright>CC-BY-SA 4.0</copyright>; per episode: licencia Creative Commons Reconocimiento-CompartirIgual 4.0"
+    captured_at: 2026-09-26
+  attribution: "Podcast Linux, {title}, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 165
+background_tags: [home]
+homepage: https://podcastlinux.com
+notes: Canarian Spanish; monologue plus one-to-one interviews ("Linux Connexion").

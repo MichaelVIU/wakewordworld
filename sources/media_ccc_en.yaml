@@ -1,0 +1,25 @@
+id: media_ccc_en
+name: media.ccc.de (English talks with Q&A)
+languages: [en]
+domain: conference
+microphone: far
+access:
+  type: ccc
+  conferences: [38c3, 39c3, 37c3, 36c3]
+  languages: [eng]
+  prefer_audio_only: true
+licence:
+  spdx: CC-BY-4.0
+  evidence:
+    type: page
+    url: https://media.ccc.de/about
+    quote: "The license displayed in the actual video file applies. Most of our content is licensed under CC BY 4.0."
+    captured_at: 2026-09-25
+  attribution: "{author}: {title}, {event} via media.ccc.de, CC BY 4.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 6430
+has_transcripts: true
+background_tags: [audience, hall_reverb, applause]
+homepage: https://media.ccc.de
+notes: English-language congress talks; same handling as media_ccc_de.

@@ -1,0 +1,32 @@
+id: dipco
+name: DiPCo, Dinner Party Corpus (Amazon)
+languages: [en]
+domain: dinner
+microphone: array
+access:
+  type: http_archive
+  urls:
+    - https://s3.amazonaws.com/dipco/DiPCo.tgz
+  audio_glob: "**/audio/**/*U01.CH1.wav"
+  transcript_glob: "**/transcriptions/**/*.json"
+  transcript_format: json
+licence:
+  spdx: CDLA-Permissive-1.0
+  evidence:
+    type: page
+    url: https://zenodo.org/records/8122551
+    quote: "License: Community Data License Agreement - Permissive - Version 1.0"
+    captured_at: 2026-09-26
+  attribution: "DiPCo, Dinner Party Corpus (Van Segbroeck et al., 2019), CDLA-Permissive-1.0, {url}"
+filters:
+  min_duration_s: 300
+expected_hours: 5.3
+has_transcripts: true
+background_tags: [dinner, far_field, music]
+engine_training_overlap: [openwakeword, microwakeword]
+homepage: https://zenodo.org/records/8122551
+notes: >
+  Ten dinner-party sessions, four speakers, five far-field arrays. Used by openWakeWord
+  and microWakeWord to tune false-accept rates, so results on this source are flagged for
+  those engines. One array channel is used per session; 13.4 GB archive, extract only the
+  selected channel.

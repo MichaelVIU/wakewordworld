@@ -1,0 +1,28 @@
+id: notsofar1
+name: NOTSOFAR-1 (Microsoft, real meetings)
+languages: [en]
+domain: meeting
+microphone: array
+access:
+  type: huggingface
+  repo_id: microsoft/NOTSOFAR
+  audio_column: audio
+  text_column: text
+licence:
+  spdx: CC-BY-4.0
+  evidence:
+    type: page
+    url: https://github.com/microsoft/NOTSOFAR1-Challenge
+    quote: "The NOTSOFAR-1 dataset is released under the CC BY 4.0 licence."
+    captured_at: 2026-09-26
+  attribution: "NOTSOFAR-1 (Vinnikov et al., 2024), Microsoft, CC BY 4.0, {url}"
+filters:
+  min_duration_s: 120
+expected_hours: 24
+has_transcripts: true
+background_tags: [office, far_field]
+homepage: https://github.com/microsoft/NOTSOFAR1-Challenge
+notes: >
+  237 real meetings of about six minutes in 30 rooms with 35 speakers, multi-device.
+  The Hugging Face repo id and layout must be confirmed at ingest time; the official
+  download is via Azure blob storage documented in the challenge repository.

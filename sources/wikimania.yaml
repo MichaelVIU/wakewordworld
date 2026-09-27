@@ -1,0 +1,25 @@
+id: wikimania
+name: Wikimania talks (Wikimedia Commons)
+languages: [en]
+domain: conference
+microphone: far
+access:
+  type: commons
+  search: "filetype:video Wikimania talk"
+  licence_qids: [Q20007257, Q18199165, Q6938433, Q14946043]
+  language_qid: Q1860
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata
+    quote: "extmetadata LicenseShortName: CC BY-SA 4.0 / CC BY 4.0 per file"
+    captured_at: 2026-09-26
+  attribution: "{author}: {title}, Wikimania via Wikimedia Commons, {licence}, {url}"
+filters:
+  min_duration_s: 600
+expected_hours: 260
+background_tags: [audience, hall_reverb]
+homepage: https://commons.wikimedia.org/wiki/Category:Wikimania
+notes: 535 files; talks, panels and Q&A, mostly English; licence per file from Commons metadata.

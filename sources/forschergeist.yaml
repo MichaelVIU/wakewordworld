@@ -1,0 +1,24 @@
+id: forschergeist
+name: Forschergeist (Metaebene)
+languages: [de]
+domain: interview
+microphone: close
+access:
+  type: rss
+  url: https://forschergeist.de/feed/mp3/
+  read_item_licence: true
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: feed_tag
+    url: https://forschergeist.de/feed/mp3/
+    quote: "podcast:license CC BY-SA 4.0 (feed tag); impressum: Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 4.0"
+    captured_at: 2026-09-26
+  attribution: "Forschergeist, {title}, Metaebene Personal Media, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 1200
+expected_hours: 100
+background_tags: [studio]
+homepage: https://forschergeist.de
+notes: One-to-one interviews, spontaneous; formal address ("Herr X") more common than first names.

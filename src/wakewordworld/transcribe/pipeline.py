@@ -26,6 +26,7 @@ from typing import Literal
 import soundfile as sf
 from pydantic import BaseModel, ConfigDict
 
+from wakewordworld.ingest.items import ItemStore
 from wakewordworld.ingest.records import FileRecord, read_jsonl
 from wakewordworld.sources.spec import HttpArchiveAccess, Language, SourceSpec
 from wakewordworld.transcribe.align import align_reference, align_uniform
@@ -131,12 +132,14 @@ def find_reference(data_root: DataRoot, spec: SourceSpec, rec: FileRecord) -> Re
                 return ReferenceHit(p, fmt, "refs/item_id")
     access = spec.access
     if isinstance(access, HttpArchiveAccess) and access.transcript_glob:
-        member = getattr(rec, "member_path", None)
-        stem = Path(str(member)).stem if member else Path(rec.audio_path).stem
-        root = cache / "archives" / spec.id
-        if root.exists():
+        stems = _candidate_stems(data_root, spec, rec)
+        roots = [cache / "archives" / spec.id, cache / "extract"]
+        for root in roots:
+            if not root.exists():
+                continue
             for cand in root.glob(access.transcript_glob):
-                if cand.stem == stem or cand.stem.split(".")[0] == stem.split(".")[0]:
+                cand_stem = cand.stem.split(".")[0]
+                if cand.stem in stems or cand_stem in stems:
                     declared = access.transcript_format
                     fmt_arch: ReferenceFormat | None = (
                         declared if declared in ("icsi_mrt", "txt") else None
@@ -145,6 +148,33 @@ def find_reference(data_root: DataRoot, spec: SourceSpec, rec: FileRecord) -> Re
                     if fmt_arch:
                         return ReferenceHit(cand, fmt_arch, "archive")
     return None
+
+
+def _candidate_stems(data_root: DataRoot, spec: SourceSpec, rec: FileRecord) -> set[str]:
+    """Stems under which a reference file may be named for this record.
+
+    Archive members are matched by their member path, direct downloads by the item
+    title (for example ``Bmr001.interaction.wav`` -> ``Bmr001``), and both by the
+    normalised audio file name as a last resort.
+    """
+    stems: set[str] = set()
+    member = getattr(rec, "member_path", None)
+    if member:
+        stems.add(Path(str(member)).stem)
+        stems.add(Path(str(member)).stem.split(".")[0])
+    for item in ItemStore(data_root).read(spec.id):
+        if item.item_id == rec.item_id:
+            title_stem = Path(item.title).stem
+            stems.add(title_stem)
+            stems.add(title_stem.split(".")[0])
+            url_stem = Path(item.url.split("?")[0]).stem
+            stems.add(url_stem)
+            stems.add(url_stem.split(".")[0])
+            break
+    audio_stem = Path(rec.audio_path).stem
+    stems.add(audio_stem)
+    stems.add(audio_stem.split(".")[0])
+    return stems
 
 
 def _language_for(spec: SourceSpec, rec: FileRecord) -> Language | None:

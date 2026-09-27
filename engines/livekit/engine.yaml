@@ -1,0 +1,30 @@
+id: livekit
+name: LiveKit wakeword
+homepage: https://github.com/livekit/livekit-wakeword
+licence:
+  runtime: Apache-2.0
+  models: Apache-2.0 (bundled mel front end and speech-embedding backbone); classifiers per their own source
+version: livekit-wakeword==0.2.1
+extra: engines-livekit
+adapter: wakewordworld.engines.livekit
+models:
+- name: melspectrogram.onnx
+  file: bundled in the wheel (livekit/wakeword/resources)
+  sha256: unpinned
+- name: embedding_model.onnx
+  file: bundled in the wheel (livekit/wakeword/resources)
+  sha256: unpinned
+- name: wake word classifiers (.onnx)
+  file: trained with `livekit-wakeword run config.yaml` or third-party (e.g. laion/bud-e_wakeword-models_livekit-wakeword on Hugging Face)
+  sha256: unpinned
+wake_words:
+- hey_livekit
+custom_word_method: training
+on_device: true
+score_semantics: >
+  Continuous per-frame confidence (0-1) from WakeWordModel.predict over a sliding 2 s
+  window (25 frames), evaluated after every frame like the shipped listener.
+notes: >
+  The package ships no wake word classifiers; models must be supplied as .onnx paths and
+  their hashes are recorded at run time. Training uses synthetic TTS positives (Piper or
+  VoxCPM); the submitter must disclose the training configuration.

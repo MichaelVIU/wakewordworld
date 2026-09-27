@@ -1,0 +1,34 @@
+id: porcupine
+name: Picovoice Porcupine
+homepage: https://picovoice.ai/platform/porcupine/
+licence:
+  runtime: proprietary (Picovoice SDK; Apache-2.0 Python bindings; access key required, free tier non-commercial)
+  models: proprietary (.ppn keyword files and .pv language params, Picovoice terms)
+version: pvporcupine==4.0.3
+extra: engines-porcupine
+adapter: wakewordworld.engines.porcupine
+models:
+- name: porcupine_params (en)
+  file: bundled in the pvporcupine wheel
+  sha256: unpinned
+- name: built-in keywords (alexa, computer, jarvis, porcupine, ...)
+  file: bundled in the pvporcupine wheel
+  sha256: unpinned
+- name: custom keywords (.ppn)
+  file: created in the Picovoice Console per phrase, language and platform
+  sha256: unpinned
+wake_words:
+- alexa
+- computer
+- jarvis
+- porcupine
+custom_word_method: text
+on_device: true
+score_semantics: >
+  Boolean: 1.0 on the 80 ms frame in which any 512-sample sub-frame returned a keyword
+  index. Curves are obtained by sweeping construction-time `sensitivity` (0.1-0.9).
+notes: >
+  Requires PICOVOICE_ACCESS_KEY at run time; the container image never contains a key.
+  Non-English evaluations need the matching porcupine_params_<lang>.pv (model_path) and
+  keyword files built for that language. Engine versions before 2.x used a different
+  model format and are not comparable; the version is pinned by the Python package.

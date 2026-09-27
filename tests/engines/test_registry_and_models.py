@@ -13,8 +13,16 @@ from wakewordworld.engines.models import ModelChecksumError, download_file, hash
 from wakewordworld.engines.registry import list_engines, load_engine
 
 
-def test_registry_lists_three_engines() -> None:
-    assert list(list_engines()) == ["microwakeword", "openwakeword", "vosk"]
+def test_registry_lists_all_engines() -> None:
+    assert list(list_engines()) == [
+        "efficientwordnet",
+        "livekit",
+        "microwakeword",
+        "openwakeword",
+        "porcupine",
+        "sherpa_kws",
+        "vosk",
+    ]
 
 
 def test_load_unknown_engine() -> None:

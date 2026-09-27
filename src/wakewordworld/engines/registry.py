@@ -9,7 +9,15 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
-from wakewordworld.engines import microwakeword, openwakeword, vosk  # noqa: F401 - registration
+from wakewordworld.engines import (  # noqa: F401 - registration side effects
+    efficientwordnet,
+    livekit,
+    microwakeword,
+    openwakeword,
+    porcupine,
+    sherpa_kws,
+    vosk,
+)
 from wakewordworld.engines.base import Engine, engine_registry
 
 __all__ = ["list_engines", "load_engine"]

@@ -1,0 +1,28 @@
+id: sherpa_kws
+name: sherpa-onnx keyword spotting (zipformer transducer)
+homepage: https://k2-fsa.github.io/sherpa/onnx/kws/index.html
+licence:
+  runtime: Apache-2.0
+  models: Apache-2.0 (k2-fsa release archives; GigaSpeech model trained on GigaSpeech, research licence on the corpus)
+version: sherpa-onnx==1.13.8
+extra: engines-sherpa
+adapter: wakewordworld.engines.sherpa_kws
+models:
+- name: sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+  url: https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+  sha256: f170013b4716e41b62b9bfd809687c207cef798ef9bc6534d524e17af9b6561a
+wake_words:
+- hey_jarvis
+- alexa
+- computer
+custom_word_method: text
+on_device: true
+score_semantics: >
+  Boolean hit events from keyword-constrained beam search; 1.0 on the frame in which a
+  hit was decoded. Curves come from sweeping `keywords_threshold` (0.05-0.6).
+notes: >
+  Keywords are BPE token sequences generated with sherpa_onnx.text2token (needs
+  sentencepiece and pypinyin) or supplied as a prepared keywords file. Only English
+  (GigaSpeech) and Chinese models are published; other languages require training with
+  icefall. Multi-word labels use underscores because the keywords file is whitespace
+  separated.

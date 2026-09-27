@@ -12,12 +12,22 @@ indicative only.
 
 ## Status
 
-| Language | Pool status | Candidates | Decision |
+First internal slice (2026-09-27, about 11 hours, two or three episodes per source, limited
+by local disk). Counts from `wakewordworld index names`; occurrences / vocatives / distinct
+parent files. None of these meets the candidate criteria yet; they show that the
+vocative-rich sources deliver exactly the material the benchmark needs.
+
+| Language | Pool | Leading names (occurrences / vocatives / files) | Decision |
 |---|---|---|---|
-| en | first slice ingesting | pending | pending |
-| de | first slice ingested (Küchenradio, 1.4 h) | pending | pending |
-| fr | first slice ingesting | pending | pending |
-| es | first slice ingesting | pending | pending |
+| en | Hacker Public Radio, 0.7 h | arthur 10 / 1 / 2, lee 5 / 2 / 1, walter 5 / 1 / 1 | pending: ingest ICSI (jane, dan, adam, morgan, liz) and more HPR |
+| de | Küchenradio, 1.4 h | andi 9 / 4 / 1 (host) | pending: full Küchenradio run, media.ccc.de Q&A |
+| fr | Libre à vous!, 3.8 h | florian 46 / 31 / 2, laurent 11 / 5 / 2, isabelle 10 / 6 / 3, gilles 4 / 4 / 2 | pending: full Libre à vous! run; "florian" is the strongest vocative candidate so far |
+| es | KDE España + Espika FM, 5.3 h | fernando 21 / 8 / 2, juan 18 / 4 / 2, lucía 9 / 7 / 2, víctor 10 / 6 / 1, pancho 6 / 5 / 1 | pending: full runs plus Una Radio Muchas Voces |
+
+First engine runs on data-derived names (Vosk grammar baseline, internal slice):
+"andi" (de) 5 of 9 detected at 1,021 false accepts per hour; "víctor" (es) 5 of 10 at
+304 false accepts per hour. This is the expected failure mode of an ASR grammar used as a
+wake word engine and the reason the benchmark reports curves, not detection counts.
 
 ## Seed expectations from the source surveys
 

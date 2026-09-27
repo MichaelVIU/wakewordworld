@@ -96,6 +96,7 @@ def init_data(data_root: DataRootOpt = None) -> None:
 def _register_stage_commands() -> None:
     """Attach stage sub-apps lazily so optional deps are imported only when used."""
     from wakewordworld.eval.cli import eval_app
+    from wakewordworld.hub.cli import hub_app
     from wakewordworld.index.cli import index_app
     from wakewordworld.ingest.cli import ingest_app
     from wakewordworld.manifest.cli import manifest_app
@@ -108,6 +109,7 @@ def _register_stage_commands() -> None:
     app.add_typer(manifest_app, name="manifest")
     app.add_typer(eval_app, name="eval")
     app.add_typer(report_app, name="report")
+    app.add_typer(hub_app, name="hub")
 
 
 _register_stage_commands()

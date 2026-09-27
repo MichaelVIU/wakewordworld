@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "harness-v*"
+      - "dataset-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  harness:
+    if: startsWith(github.ref_name, 'harness-v')
+    name: Harness release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv python install 3.12
+      - run: uv sync --dev
+      - run: uv run pytest -m "not network and not slow and not engine"
+      - run: uv build
+      - name: Extract changelog section
+        run: |
+          version="${GITHUB_REF_NAME#harness-v}"
+          awk -v v="$version" '
+            $0 ~ "^## " { printing = ($0 ~ v) }
+            printing { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then echo "See CHANGELOG.md" > release-notes.md; fi
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Harness ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: dist/*
+
+  dataset:
+    if: startsWith(github.ref_name, 'dataset-v')
+    name: Dataset release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv python install 3.12
+      - run: uv sync
+      - name: Resolve version
+        id: v
+        run: echo "version=${GITHUB_REF_NAME#dataset-v}" >> "$GITHUB_OUTPUT"
+      - name: Validate frozen manifest
+        run: uv run wakewordworld manifest validate "manifests/${{ steps.v.outputs.version }}"
+      - name: Build release files (metadata and card only; CI has no audio)
+        run: |
+          uv run wakewordworld hub build-release \
+            --manifest "manifests/${{ steps.v.outputs.version }}" \
+            --out "dist/dataset-${{ steps.v.outputs.version }}" --no-audio
+      - name: Print maintainer upload commands
+        run: |
+          v="${{ steps.v.outputs.version }}"
+          cat <<MSG
+          Audio is not available in CI. Run locally on the machine holding the data root:
+
+            uv run wakewordworld hub build-release --manifest manifests/$v --out dist/dataset-$v
+            HF_TOKEN=... uv run wakewordworld hub upload --dir dist/dataset-$v --repo wakewordworld/benchmark --tag $v
+            ZENODO_TOKEN=... uv run wakewordworld hub zenodo --dir dist/dataset-$v --github-tag-url ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }} --hf-url https://huggingface.co/datasets/wakewordworld/benchmark --publish
+
+          HF_TOKEN secret configured: ${{ secrets.HF_TOKEN != '' }}
+          ZENODO_TOKEN secret configured: ${{ secrets.ZENODO_TOKEN != '' }}
+          MSG
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Dataset ${{ steps.v.outputs.version }}
+          body: |
+            Frozen manifest `manifests/${{ steps.v.outputs.version }}`. Audio is distributed
+            through the gated Hugging Face dataset; this release holds the manifest header,
+            checksums, attribution table and dataset card.
+          files: |
+            manifests/${{ steps.v.outputs.version }}/release.json
+            manifests/${{ steps.v.outputs.version }}/SHA256SUMS
+            manifests/${{ steps.v.outputs.version }}/sources.md
+            dist/dataset-${{ steps.v.outputs.version }}/README.md

@@ -1,0 +1,49 @@
+name: Weekly verified evaluation
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      manifest_version:
+        description: Manifest version to evaluate
+        required: true
+        default: "0.1.0"
+      engines:
+        description: Space-separated engine ids
+        required: true
+        default: "openwakeword microwakeword vosk"
+
+permissions:
+  contents: read
+
+jobs:
+  launch:
+    name: Launch HF Jobs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv python install 3.12
+      - run: uv sync --extra hub
+      - name: Launch (or explain why not)
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          MANIFEST_VERSION: ${{ github.event.inputs.manifest_version || vars.MANIFEST_VERSION || '0.1.0' }}
+          ENGINES: ${{ github.event.inputs.engines || vars.EVAL_ENGINES || 'openwakeword microwakeword vosk' }}
+          IMAGE_PREFIX: ${{ vars.IMAGE_PREFIX || format('ghcr.io/{0}/wakewordworld', github.repository_owner) }}
+          DATASET_REPO: ${{ vars.DATASET_REPO || 'wakewordworld/benchmark-internal' }}
+          RESULTS_REPO: ${{ vars.RESULTS_REPO || 'wakewordworld/results' }}
+        run: |
+          args=()
+          for e in $ENGINES; do args+=(--engine "$e"); done
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::notice::HF_TOKEN is not configured; printing job specs only."
+            uv run python scripts/hf_jobs_eval.py "${args[@]}" --manifest-version "$MANIFEST_VERSION" \
+              --image-prefix "$IMAGE_PREFIX" --image-tag "$MANIFEST_VERSION" \
+              --dataset-repo "$DATASET_REPO" --results-repo "$RESULTS_REPO" --dry-run
+            exit 0
+          fi
+          uv run python scripts/hf_jobs_eval.py "${args[@]}" --manifest-version "$MANIFEST_VERSION" \
+            --image-prefix "$IMAGE_PREFIX" --image-tag "$MANIFEST_VERSION" \
+            --dataset-repo "$DATASET_REPO" --results-repo "$RESULTS_REPO"

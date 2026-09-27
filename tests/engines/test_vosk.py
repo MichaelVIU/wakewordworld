@@ -23,6 +23,7 @@ def _install_fake_vosk(fake_modules, script: list[tuple[bool, dict]]) -> types.S
         def __init__(self, model, rate, grammar):
             state.recognisers += 1
             state.grammar = json.loads(grammar)
+            state.raw_grammar = grammar
             self._i = 0
             self._last = None
 
@@ -120,3 +121,13 @@ def test_unavailable(monkeypatch) -> None:
     monkeypatch.setitem(sys.modules, "vosk", None)
     with pytest.raises(EngineUnavailableError, match="engines-vosk"):
         VoskEngine(wake_words=["alexa"], model_path="/tmp/x")
+
+
+def test_grammar_keeps_non_ascii_phrases(fake_modules) -> None:  # type: ignore[no-untyped-def]
+    """Accented wake words must reach Vosk unescaped (Vosk does not decode JSON escapes)."""
+    state = _install_fake_vosk(fake_modules, [(False, {"partial": ""})])
+    from wakewordworld.engines.vosk import VoskEngine
+
+    VoskEngine(wake_words=["víctor"], model_path="/tmp/model")
+    assert "víctor" in state.raw_grammar
+    assert "\\u00ed" not in state.raw_grammar

@@ -103,7 +103,11 @@ class VoskEngine:
         self._model = vosk.Model(model_path=str(path))
         self._phrases = tuple(wake_words)
         self._tokens = {p: _phrase_tokens(p) for p in self._phrases}
-        grammar = json.dumps([*[" ".join(t) for t in self._tokens.values()], "[unk]"])
+        # Vosk does not decode JSON escapes, so non-ASCII phrases ("víctor") must be
+        # passed verbatim or they are silently dropped as out-of-vocabulary.
+        grammar = json.dumps(
+            [*[" ".join(t) for t in self._tokens.values()], "[unk]"], ensure_ascii=False
+        )
         self._grammar = grammar
         self._vosk = vosk
         self._rec = vosk.KaldiRecognizer(self._model, SAMPLE_RATE, grammar)

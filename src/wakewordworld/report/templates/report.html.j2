@@ -26,6 +26,8 @@ svg.det { max-width:100%; height:auto; background:transparent; }
 svg.ci { vertical-align:middle; } .ci-axis { stroke:var(--line); stroke-width:1; } .ci-range { stroke:var(--accent); stroke-width:3; } .ci-point { fill:var(--fg); }
 code { font-size:.85em; } footer { margin-top:3rem; font-size:.85rem; color:var(--muted); }
 @media print { body { max-width:none; } .plots { grid-template-columns:1fr 1fr; } h2 { page-break-after:avoid; } table { page-break-inside:avoid; } }
+.warn{border-left:4px solid #d55e00;padding:.5rem .75rem;background:rgba(213,94,0,.08)}
+.status{margin:1rem 0}
 </style>
 </head>
 <body>
@@ -44,6 +46,32 @@ code { font-size:.85em; } footer { margin-top:3rem; font-size:.85rem; color:var(
 <li><strong>Verified</strong> marks runs the maintainers executed from a pinned container image. Nothing here is self-reported.</li>
 </ul>
 </section>
+
+
+<section class="status" aria-labelledby="status">
+<h2 id="status">What these runs measured</h2>
+<p>
+Pool: manifest {{ status.manifests | join(", ") }}, about {{ "%.1f" | format(status.audio_hours) }} hours of real speech
+in {{ status.languages | join(", ") }}. Wake words evaluated and how often each was actually spoken in the pool:
+{% for w, n in status.positives.items() %}<strong>{{ w }}</strong> ({{ n }}){{ ", " if not loop.last }}{% endfor %}.
+</p>
+{% if status.no_positives %}
+<p class="warn"><strong>No positives in this pool.</strong> None of the evaluated wake words occurs in the recordings, so
+false reject rates, AUT and rankings below are undefined and every row is marked preliminary. The table that follows,
+false accepts per hour, is the meaningful result of these runs: how often each engine fires on real speech in which the
+word was never said. Built-in engine words (alexa, hey jarvis, okay nabu) are only a pipeline check; the benchmark's own
+wake words are names chosen from the pool once enough hours are ingested (see <code>docs/methodology/wake-words.md</code>).</p>
+{% endif %}
+</section>
+
+<h2 id="fa">False accepts per hour on speech without the wake word</h2>
+<p class="meta">Per engine, wake word and language. Columns are score thresholds{% for t in fa_thresholds %} {{ t }}{% endfor %} (nearest evaluated operating point); engines that only report a boolean detection have one operating point, repeated across columns. Lower is better; 0.00 with few hours means "no event observed", not "never".</p>
+<table>
+<thead><tr><th scope="col">engine</th><th scope="col">wake word</th><th scope="col">language</th><th scope="col">hours</th><th scope="col">positives</th>{% for t in fa_thresholds %}<th scope="col">FA/h @ {{ t }}</th>{% endfor %}</tr></thead>
+<tbody>
+{% for r in fa_rows %}<tr><td>{{ r.engine }}</td><td>{{ r.wake_word }}</td><td>{{ r.language }}</td><td class="num">{{ r.negative_hours_fmt }}</td><td class="num">{{ r.n_positives }}</td>{% for c in r.fa_cells %}<td class="num">{{ c }}</td>{% endfor %}</tr>
+{% endfor %}</tbody>
+</table>
 
 {% for b in boards %}
 <h2 id="board-{{ loop.index }}">Wake word “{{ b.wake_word }}”</h2>

@@ -15,20 +15,24 @@ from pathlib import Path
 import polars as pl
 
 __all__ = [
+    "FA_THRESHOLDS",
     "MIN_POSITIVES",
     "MIN_UNITS",
     "Run",
     "export_json",
+    "false_accept_table",
     "leaderboard",
     "load_run",
     "load_runs",
     "per_domain",
     "per_language",
+    "pool_status",
     "sealed_gap",
 ]
 
 MIN_POSITIVES = 100
 MIN_UNITS = 50
+FA_THRESHOLDS: tuple[float, ...] = (0.5, 0.8, 0.9, 0.95)
 
 _BUDGET_COLS: dict[float, str] = {
     0.1: "frr_at_0_1",
@@ -239,3 +243,89 @@ def export_json(runs: list[Run], path: Path, *, fa_budget: float = 0.5) -> None:
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
+
+
+def false_accept_table(
+    runs: list[Run], *, thresholds: tuple[float, ...] = FA_THRESHOLDS
+) -> pl.DataFrame:
+    """False accepts per hour per (engine, wake word, language) at fixed score thresholds.
+
+    This view does not need any positives, so it is the first thing to read while the
+    pool is small or a wake word does not occur in it. For each threshold the nearest
+    evaluated operating point is used; boolean engines have a single point.
+    """
+    rows: list[dict[str, object]] = []
+    for r in runs:
+        curves = r.curves.filter(pl.col("slice_type").is_in(["all", "language"]))
+        summ = r.summary.filter(pl.col("slice_type").is_in(["all", "language"]))
+        for (w, st, sv), g in curves.group_by(
+            ["wake_word", "slice_type", "slice_value"], maintain_order=True
+        ):
+            info = summ.filter(
+                (pl.col("wake_word") == w)
+                & (pl.col("slice_type") == st)
+                & (pl.col("slice_value") == sv)
+            )
+            n_pos = int(info.get_column("n_positives")[0]) if info.height else 0
+            neg_h = float(info.get_column("negative_hours")[0]) if info.height else 0.0
+            row: dict[str, object] = {
+                "engine": r.engine_label,
+                "wake_word": str(w),
+                "language": "all" if st == "all" else str(sv),
+                "negative_hours": neg_h,
+                "n_positives": n_pos,
+            }
+            thr = g.get_column("threshold").to_numpy()
+            fah = g.get_column("fa_per_hour").to_numpy()
+            single_point = len(thr) <= 3  # boolean engines: [0, value, 1+eps]
+            for t in thresholds:
+                if len(thr) == 0:
+                    row[f"fa_at_{t}"] = None
+                    continue
+                if single_point:
+                    # Use the engine's own operating point (the middle threshold).
+                    idx = min(range(len(thr)), key=lambda i: abs(thr[i] - 0.5))
+                else:
+                    idx = min(range(len(thr)), key=lambda i: abs(thr[i] - t))
+                row[f"fa_at_{t}"] = float(fah[idx])
+            row["single_point"] = single_point
+            rows.append(row)
+    if not rows:
+        return pl.DataFrame()
+    order = {"all": 0}
+    return (
+        pl.DataFrame(rows)
+        .with_columns(
+            pl.col("language").replace_strict(order, default=1, return_dtype=pl.Int64).alias("_o")
+        )
+        .sort(["wake_word", "engine", "_o", "language"])
+        .drop("_o")
+    )
+
+
+def pool_status(runs: list[Run]) -> dict[str, object]:
+    """Plain-language facts about what the loaded runs measured."""
+    manifests = sorted({str(r.meta.get("manifest_version", "?")) for r in runs})
+    languages: set[str] = set()
+    hours = 0.0
+    for r in runs:
+        langs = r.meta.get("languages")
+        if isinstance(langs, list):
+            languages.update(str(x) for x in langs)
+        h = r.meta.get("audio_hours")
+        if isinstance(h, (int, float)):
+            hours = max(hours, float(h))
+    positives: dict[str, int] = {}
+    for r in runs:
+        allrows = r.summary.filter(pl.col("slice_type") == "all")
+        for rec in allrows.iter_rows(named=True):
+            positives[rec["wake_word"]] = max(
+                positives.get(rec["wake_word"], 0), int(rec["n_positives"])
+            )
+    return {
+        "manifests": manifests,
+        "languages": sorted(languages),
+        "audio_hours": hours,
+        "positives": dict(sorted(positives.items())),
+        "no_positives": all(v == 0 for v in positives.values()) if positives else True,
+    }

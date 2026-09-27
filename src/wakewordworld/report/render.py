@@ -14,12 +14,15 @@ from markupsafe import Markup
 
 from wakewordworld import __version__
 from wakewordworld.report.build import (
+    FA_THRESHOLDS,
     MIN_POSITIVES,
     MIN_UNITS,
     Run,
+    false_accept_table,
     leaderboard,
     per_domain,
     per_language,
+    pool_status,
     sealed_gap,
 )
 from wakewordworld.report.svg import det_svg, interval_bar_svg
@@ -113,6 +116,12 @@ def build_context(runs: Sequence[Run], *, title: str, fa_budget: float = 0.5) ->
     """Assemble everything the template needs."""
     run_list = list(runs)
     board = leaderboard(run_list, fa_budget=fa_budget)
+    status = pool_status(run_list)
+    fa_df = false_accept_table(run_list)
+    fa_rows = [] if fa_df.is_empty() else fa_df.to_dicts()
+    for rec in fa_rows:
+        rec["fa_cells"] = [_fmt(rec.get(f"fa_at_{t}"), 2) for t in FA_THRESHOLDS]
+        rec["negative_hours_fmt"] = _fmt(rec.get("negative_hours"), 1)
     wake_words: list[str] = (
         sorted(board.get_column("wake_word").unique().to_list()) if not board.is_empty() else []
     )
@@ -189,6 +198,9 @@ def build_context(runs: Sequence[Run], *, title: str, fa_budget: float = 0.5) ->
     ]
     manifest_versions = sorted({str(r.meta.get("manifest_version", "?")) for r in run_list})
     return {
+        "status": status,
+        "fa_rows": fa_rows,
+        "fa_thresholds": list(FA_THRESHOLDS),
         "title": title,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "harness_version": __version__,

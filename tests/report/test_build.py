@@ -80,3 +80,16 @@ def test_empty_root(tmp_path: Path) -> None:
     assert runs == []
     assert leaderboard(runs).is_empty()
     assert per_language(runs).is_empty()
+
+
+def test_false_accept_table_and_pool_status(results_root: Path) -> None:
+    from wakewordworld.report.build import false_accept_table, load_runs, pool_status
+
+    runs = load_runs(results_root)
+    fa = false_accept_table(runs)
+    assert not fa.is_empty()
+    assert {"engine", "wake_word", "language", "fa_at_0.5", "n_positives"} <= set(fa.columns)
+    assert (fa.get_column("language") == "all").any()
+    st = pool_status(runs)
+    assert st["audio_hours"] >= 0
+    assert isinstance(st["positives"], dict)

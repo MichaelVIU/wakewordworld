@@ -1,0 +1,50 @@
+name: On-device measurements
+
+# Runs only on the maintainers' self-hosted runner (Raspberry Pi 5). Never on fork
+# pull requests: the workflow is manual or tag-triggered on this repository only.
+on:
+  workflow_dispatch:
+    inputs:
+      engine_id:
+        description: Engine id (see `wakewordworld eval engines`)
+        required: true
+      manifest:
+        description: Manifest directory, e.g. manifests/0.1.0
+        required: true
+        default: manifests/0.1.0
+      limit:
+        description: Number of chunks to time
+        required: false
+        default: "20"
+  push:
+    tags: ["device-run-*"]
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    if: github.repository == 'MichaelVIU/wakewordworld'
+    runs-on: [self-hosted, linux, ARM64, pi5]
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      - name: Sync (engine extras are installed per engine folder)
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          EXTRA=$(python3 -c "import yaml,sys;print(yaml.safe_load(open('engines/${{ inputs.engine_id }}/engine.yaml')).get('extra','engines-oww'))")
+          uv sync --extra "$EXTRA"
+      - name: Measure
+        env:
+          WWW_DATA_ROOT: /srv/wakewordworld/data
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          uv run python scripts/measure_device.py "${{ inputs.engine_id }}" \
+            --manifest "${{ inputs.manifest }}" --limit "${{ inputs.limit }}" \
+            --label pi5 --out "results/device/pi5-${{ inputs.engine_id }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: device-${{ inputs.engine_id }}
+          path: results/device/

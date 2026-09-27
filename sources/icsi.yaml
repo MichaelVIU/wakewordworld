@@ -6,8 +6,83 @@ microphone: array
 access:
   type: http_archive
   urls:
-    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/ICSI_core_NXT.zip
-  audio_glob: "**/*.wav"
+    - https://groups.inf.ed.ac.uk/ami/ICSICorpusAnnotations/ICSI_original_transcripts.zip
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bdb001.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed002.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed003.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed004.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed005.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed006.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed008.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed009.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed010.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed011.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed012.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed013.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed014.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed015.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed016.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bed017.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr001.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr002.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr003.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr005.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr006.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr007.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr008.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr009.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr010.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr011.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr012.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr013.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr014.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr015.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr016.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr018.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr019.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr020.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr021.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr022.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr023.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr024.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr025.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr026.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr027.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr028.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr029.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr030.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bmr031.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bns001.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bns002.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bns003.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro003.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro004.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro005.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro007.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro008.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro010.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro011.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro012.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro013.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro014.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro015.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro016.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro017.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro018.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro019.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro021.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro022.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro023.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro024.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro025.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro026.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro027.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bro028.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Bsr001.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Btr001.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Btr002.interaction.wav
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/Buw001.interaction.wav
+  audio_glob: "**/*.interaction.wav"
   transcript_glob: "**/*.mrt"
   transcript_format: icsi_mrt
 licence:
@@ -25,7 +100,8 @@ has_transcripts: true
 background_tags: [office]
 homepage: https://groups.inf.ed.ac.uk/ami/icsi/
 notes: >
-  76 real research-group meetings with dense first-name vocatives (Jane, Dan, Adam, Morgan,
-  Liz, Dave, Chuck). Transcripts in .mrt XML with per-segment timing; word timings come
-  from forced alignment. Download URLs for the signals are listed on the corpus page and
-  must be filled in per channel; the NXT zip above holds the annotations.
+  75 real research-group meetings with dense first-name vocatives (Jane, Dan, Adam, Morgan,
+  Liz, Dave, Chuck). One mixed "interaction" WAV per meeting (all close-talk channels
+  summed) plus the original .mrt transcripts (per-segment timing, per-speaker); word
+  timings come from forced alignment. Transcript stem (Bmr001) matches the audio stem
+  before ".interaction".

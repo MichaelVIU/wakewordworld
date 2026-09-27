@@ -182,3 +182,15 @@ Tracks
 4. Gated vs fully open HF dataset (proposal: gated with automatic approval, for the terms and the access log).
 5. Where Tier B audio lives long-term (maintainer NAS plus encrypted offsite copy).
 6. Which four to six candidate wake words per language, decided from M1 statistics, not before.
+
+## 12. Status (2026-09-27)
+
+| Milestone | State | Notes |
+|---|---|---|
+| M0 Skeleton | done | repo, licences, governance, schemas, CLI, CI with licence gate |
+| M1 First slice | done (small) | 21 source specs; fetchers for 7 access types; ingest, transcription, word index, manifest; first internal slice of ~11 h (de/en/fr/es) limited by local disk |
+| M2 Harness | done | streaming protocol, detection semantics, metrics with cluster bootstrap, 7 engine adapters (openWakeWord, microWakeWord, Vosk, Porcupine, LiveKit, EfficientWord-Net, sherpa-onnx); first internal runs |
+| M3 Release v0.1 | tooling done, release pending | report generator, dataset card, HF publish and Zenodo clients, release workflow exist; publishing needs a Hugging Face organisation and tokens, and the size targets need more disk than the development machine has |
+| M4 Breadth | done (code) | augmentation lane (DEMAND/MUSAN/RIRS), 4 additional adapters, relicensing letter drafts; noise sets not downloaded locally (disk) |
+| M5 Open submissions | done (code) | submission checks, PR workflow with image build and smoke test, weekly HF Jobs workflow, webhook script, ops runbooks; needs HF credentials to go live |
+| M6 On-device | scripted, hardware pending | measurement script, self-hosted runner workflow, ESP32 procedure documented; no Raspberry Pi / ESP32 available in this environment |

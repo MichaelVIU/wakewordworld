@@ -3,7 +3,9 @@
 An independent, reproducible benchmark for wake word and keyword spotting engines,
 evaluated on real, non-synthetic speech in English, German, French and Spanish.
 
-> Status: pre-release (M0/M1). Nothing here is a published result yet.
+> Status: pre-release. Pipeline, harness, seven engine adapters and release tooling are
+> in place; a first internal slice (about 11 hours, four languages) has been evaluated
+> for pipeline validation only. No published result yet. See `docs/PLAN.md` section 12.
 
 ## Why
 
@@ -46,11 +48,19 @@ docs/                plan, methodology, legal, research
 ## Quick start (development)
 
 ```bash
-uv sync --all-extras --dev
-uv run wakewordworld sources validate
-uv run wakewordworld sources list
+uv sync --dev --extra transcribe --extra engines-oww --extra engines-mww
+uv run wakewordworld sources validate            # 21 sources, licence evidence checked
+uv run wakewordworld ingest run kuechenradio --max-items 2 --max-hours 3
+uv run wakewordworld transcribe run kuechenradio --backend faster-whisper --model large-v3-turbo
+uv run wakewordworld index build kuechenradio && uv run wakewordworld index names --language de
+uv run wakewordworld manifest build --version 0.0.1 --internal
+uv run wakewordworld eval run openwakeword --manifest manifests/0.0.1-internal
+uv run wakewordworld report build --results results --out site/index.html
 uv run pytest
 ```
+
+Pipeline stages: `sources` -> `ingest` -> `transcribe` -> `index` -> `manifest` -> `eval`
+-> `report`; `augment` builds the noise/RIR lane, `hub` publishes releases.
 
 Audio and other large artefacts live under `./data` (or `WWW_DATA_ROOT`) and are never
 committed.

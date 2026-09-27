@@ -12,7 +12,7 @@ of guessing.
 
 from __future__ import annotations
 
-import sys
+import platform
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +34,9 @@ class ParakeetMlxBackend:
         chunk_duration: float = 120.0,
         overlap_duration: float = 15.0,
     ) -> None:
-        if sys.platform != "darwin":
+        # platform.system() is opaque to mypy, so this check does not make the rest
+        # of the constructor unreachable when type-checking on Linux.
+        if platform.system() != "Darwin":
             msg = "parakeet-mlx runs on macOS (Apple Silicon) only"
             raise BackendUnavailable(msg)
         try:

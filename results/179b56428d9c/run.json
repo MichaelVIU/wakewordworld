@@ -1,6 +1,6 @@
 {
   "run_id": "179b56428d9c",
-  "created_at": "2026-09-27T11:30:47+00:00",
+  "created_at": "2026-09-27T11:35:21+00:00",
   "harness_version": "0.1.0.dev0",
   "manifest_version": "0.0.1",
   "manifest_dir": "manifests/0.0.1-internal",
@@ -12,7 +12,7 @@
   },
   "engine_config": {
     "model": "vosk-model-small-es-0.42",
-    "grammar": "[\"v\\u00edctor\", \"[unk]\"]"
+    "grammar": "[\"v\u00edctor\", \"[unk]\"]"
   },
   "wake_words": {
     "v\u00edctor": "v\u00edctor"

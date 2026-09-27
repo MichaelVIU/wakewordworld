@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Meeting SYSTEM "mrt.dtd">
+<Meeting Session="Bmr001" DateTimeStamp="2000-11-06-1500">
+  <Preamble>
+    <Participants>
+      <Participant Name="me011" Channel="chan0" Education="Grad" Gender="Male" />
+      <Participant Name="fe016" Channel="chan1" Education="PhD" Gender="Female" />
+    </Participants>
+  </Preamble>
+  <Transcript StartTime="0.000" EndTime="60.000">
+    <Segment StartTime="1.250" EndTime="3.900" Participant="me011">Okay , so <VocalSound Description="breath"/> Jane , are we recording ?</Segment>
+    <Segment StartTime="3.950" EndTime="5.100" Participant="fe016">Yeah , we are .</Segment>
+    <Segment StartTime="5.200" EndTime="9.870" Participant="me011">Great . <Comment Description="referring to the board"/> So Morgan wanted the numbers by Friday <Pause/> right ?</Segment>
+    <Segment StartTime="9.900" EndTime="10.400" Participant="fe016"><VocalSound Description="laugh"/></Segment>
+    <Segment StartTime="10.450" EndTime="14.000" Participant="fe016">Mm-hmm . Liz said she'd send them .</Segment>
+    <Segment StartTime="14.100" EndTime="14.100" Participant="me011"></Segment>
+    <Segment StartTime="15.000" EndTime="18.500" Participant="me011" Closemic="false">Uh , Dan , can you   hear us   in the back ?</Segment>
+    <Segment StartTime="18.600" EndTime="20.000" Participant="me013"><NonVocalSound Description="door slam"/> Yes .</Segment>
+    <Segment StartTime="20.500" EndTime="19.000" Participant="me013">Broken timing should be skipped .</Segment>
+  </Transcript>
+</Meeting>

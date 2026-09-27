@@ -28,6 +28,9 @@ data/
 !manifests/**/*.parquet
 !results/**/*.parquet
 
+# Sealed manifest splits are never published
+manifests/**/sealed/
+
 # Secrets and local config
 .env
 *.local.yaml

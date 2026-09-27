@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use WakeWordWorld, please cite it as below."
+title: "WakeWordWorld: an independent benchmark for wake word engines on real multilingual speech"
+type: software
+authors:
+  - name: "WakeWordWorld maintainers"
+repository-code: "https://github.com/MichaelVIU/wakewordworld"
+license: Apache-2.0
+version: 0.1.0.dev0
+date-released: 2026-09-27

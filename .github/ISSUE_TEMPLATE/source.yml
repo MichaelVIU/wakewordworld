@@ -1,0 +1,25 @@
+name: Propose a source
+description: Suggest openly licensed recordings for the test set
+labels: [source]
+body:
+  - type: input
+    id: name
+    attributes: { label: Source name }
+    validations: { required: true }
+  - type: input
+    id: url
+    attributes: { label: URL (feed, page, API) }
+    validations: { required: true }
+  - type: dropdown
+    id: language
+    attributes: { label: Language, options: [en, de, fr, es, other] }
+    validations: { required: true }
+  - type: textarea
+    id: licence
+    attributes:
+      label: Licence and evidence
+      description: Quote the licence statement verbatim and say where you read it.
+    validations: { required: true }
+  - type: textarea
+    id: why
+    attributes: { label: Why it fits (conversational? names? background?) }

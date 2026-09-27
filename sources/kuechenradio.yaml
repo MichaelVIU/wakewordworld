@@ -1,0 +1,25 @@
+id: kuechenradio
+name: Küchenradio
+languages: [de]
+domain: podcast
+microphone: close
+access:
+  type: rss
+  url: https://www.kuechenradio.org/feed/mp3/
+  read_item_licence: true
+licence:
+  spdx: CC-BY-3.0-DE
+  evidence:
+    type: page
+    url: https://www.kuechenradio.org/
+    quote: "Alle Küchenstudio Podcasts stehen unter der Creative Commons Namensnennung 3.0 Deutschland Lizenz."
+    captured_at: 2026-09-25
+  attribution: "Küchenradio, {title}, CC BY 3.0 DE, {url}"
+filters:
+  min_duration_s: 600
+expected_hours: 500
+background_tags: [kitchen, home]
+homepage: https://www.kuechenradio.org
+notes: >
+  Round-table of friends recorded in a Berlin kitchen since 2005; heavy use of first names.
+  Best German CC-BY conversational podcast found in the source survey.

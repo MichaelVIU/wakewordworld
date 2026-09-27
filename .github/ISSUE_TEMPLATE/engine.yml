@@ -1,0 +1,19 @@
+name: Propose an engine
+description: Ask for a wake word engine to be evaluated
+labels: [engine]
+body:
+  - type: input
+    id: name
+    attributes: { label: Engine name and version }
+    validations: { required: true }
+  - type: input
+    id: url
+    attributes: { label: Repository / product page }
+    validations: { required: true }
+  - type: dropdown
+    id: access
+    attributes: { label: How is it run?, options: [open source, binary/SDK with free key, API only] }
+    validations: { required: true }
+  - type: textarea
+    id: custom
+    attributes: { label: How are custom wake words created? (text-only, training, enrolment) }

@@ -1,0 +1,28 @@
+id: espika_fm
+name: Espika FM 90.7 (Uruguay, community radio)
+languages: [es]
+domain: radio
+microphone: broadcast
+access:
+  type: internet_archive
+  query: "creator:\"Espika FM\" AND mediatype:audio"
+  licence_urls:
+    - "http://creativecommons.org/licenses/by-sa/4.0/"
+    - "https://creativecommons.org/licenses/by-sa/4.0/"
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://archive.org/advancedsearch.php?q=creator%3A%22Espika+FM%22&fl%5B%5D=licenseurl&output=json
+    quote: "licenseurl: http://creativecommons.org/licenses/by-sa/4.0/"
+    captured_at: 2026-09-26
+  attribution: "Espika FM 90.7, {title}, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 1200
+expected_hours: 377
+background_tags: [studio, phone_in, music]
+homepage: https://archive.org/search?query=creator%3A%22Espika+FM%22
+notes: >
+  Talk shows with callers and music breaks; music is tagged at index time. Latin American
+  Spanish (Rioplatense).

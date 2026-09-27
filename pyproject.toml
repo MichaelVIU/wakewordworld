@@ -1,0 +1,128 @@
+[project]
+name = "wakewordworld"
+version = "0.1.0.dev0"
+description = "An independent, reproducible benchmark for wake word and keyword spotting engines on real multilingual speech."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.13"
+authors = [{ name = "WakeWordWorld maintainers" }]
+keywords = ["wake word", "keyword spotting", "benchmark", "speech", "evaluation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+dependencies = [
+  "pydantic>=2.7",
+  "typer>=0.12",
+  "rich>=13.7",
+  "pyyaml>=6.0",
+  "httpx>=0.27",
+  "feedparser>=6.0",
+  "numpy>=1.26",
+  "soundfile>=0.12",
+  "pyarrow>=16.0",
+  "polars>=1.0",
+  "tqdm>=4.66",
+  "python-dateutil>=2.9",
+  "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+transcribe = [
+  "faster-whisper>=1.1",
+]
+transcribe-mlx = [
+  "parakeet-mlx>=0.3; sys_platform == 'darwin'",
+]
+align = [
+  "torch>=2.3",
+  "torchaudio>=2.3",
+]
+phonetic = [
+  "phonemizer>=3.3",
+  "rapidfuzz>=3.9",
+]
+diarize = [
+  "pyannote.audio>=3.3",
+]
+engines-oww = ["openwakeword>=0.6"]
+engines-mww = ["pymicro-wakeword>=2.0"]
+engines-vosk = ["vosk>=0.3.45"]
+engines-livekit = ["livekit-wakeword>=0.2"]
+engines-ewn = ["EfficientWord-Net>=1.0.5"]
+engines-sherpa = ["sherpa-onnx>=1.10"]
+engines-porcupine = ["pvporcupine>=3.0"]
+report = ["plotly>=5.22"]
+hub = ["huggingface_hub>=0.24", "datasets>=2.20"]
+all = [
+  "wakewordworld[transcribe,phonetic,report,hub]",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.2",
+  "pytest-cov>=5.0",
+  "hypothesis>=6.100",
+  "ruff>=0.5",
+  "mypy>=1.10",
+  "pre-commit>=3.7",
+  "types-PyYAML",
+  "types-python-dateutil",
+  "respx>=0.21",
+]
+
+[project.scripts]
+wakewordworld = "wakewordworld.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/MichaelVIU/wakewordworld"
+Documentation = "https://github.com/MichaelVIU/wakewordworld/tree/main/docs"
+Issues = "https://github.com/MichaelVIU/wakewordworld/issues"
+
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wakewordworld"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "PT", "RUF", "N", "ANN", "D"]
+ignore = ["D100", "D104", "D105", "D107", "D203", "D213", "ANN401"]
+per-file-ignores = { "tests/**" = ["D", "ANN", "S101"], "scripts/**" = ["D"] }
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+ignore_missing_imports = true
+files = ["src/wakewordworld"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+  "network: tests that hit the network (deselected in CI by default)",
+  "slow: tests that take more than a few seconds",
+  "engine: tests that need an engine runtime installed",
+]
+
+[tool.coverage.run]
+source = ["wakewordworld"]
+branch = true

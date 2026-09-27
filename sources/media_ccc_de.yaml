@@ -1,0 +1,29 @@
+id: media_ccc_de
+name: media.ccc.de (German talks with Q&A)
+languages: [de]
+domain: conference
+microphone: far
+access:
+  type: ccc
+  conferences: [38c3, 39c3, 37c3, 36c3, gpn23, gpn22, mrmcd2025]
+  languages: [deu]
+  prefer_audio_only: true
+licence:
+  spdx: CC-BY-4.0
+  evidence:
+    type: page
+    url: https://media.ccc.de/about
+    quote: "The license displayed in the actual video file applies. Most of our content is licensed under CC BY 4.0."
+    captured_at: 2026-09-25
+  attribution: "{author}: {title}, {event} via media.ccc.de, CC BY 4.0, {url}"
+filters:
+  min_duration_s: 900
+expected_hours: 5290
+has_transcripts: true
+background_tags: [audience, hall_reverb, applause]
+homepage: https://media.ccc.de
+notes: >
+  Licence is per talk and read from the recording metadata; talks whose file states a
+  different licence are demoted at fetch time. Q&A segments at the end of talks and
+  panel sessions are the conversational part. Subtitles (c3subtitles) exist for a subset
+  and are used as reference transcripts when present.

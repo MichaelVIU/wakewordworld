@@ -1,0 +1,31 @@
+id: icsi
+name: ICSI Meeting Corpus
+languages: [en]
+domain: meeting
+microphone: array
+access:
+  type: http_archive
+  urls:
+    - https://groups.inf.ed.ac.uk/ami/ICSIsignals/NXT/ICSI_core_NXT.zip
+  audio_glob: "**/*.wav"
+  transcript_glob: "**/*.mrt"
+  transcript_format: icsi_mrt
+licence:
+  spdx: CC-BY-4.0
+  evidence:
+    type: page
+    url: https://groups.inf.ed.ac.uk/ami/icsi/license.shtml
+    quote: "The ICSI Meeting Corpus is released under the Creative Commons Attribution 4.0 International Licence (CC BY 4.0)."
+    captured_at: 2026-09-26
+  attribution: "ICSI Meeting Corpus (Janin et al., 2003), University of Edinburgh release, CC BY 4.0, {url}"
+filters:
+  min_duration_s: 300
+expected_hours: 72
+has_transcripts: true
+background_tags: [office]
+homepage: https://groups.inf.ed.ac.uk/ami/icsi/
+notes: >
+  76 real research-group meetings with dense first-name vocatives (Jane, Dan, Adam, Morgan,
+  Liz, Dave, Chuck). Transcripts in .mrt XML with per-segment timing; word timings come
+  from forced alignment. Download URLs for the signals are listed on the corpus page and
+  must be filled in per channel; the NXT zip above holds the annotations.

@@ -1,0 +1,29 @@
+id: voxpopuli
+name: VoxPopuli (European Parliament, transcribed subsets)
+languages: [en, de, fr, es]
+domain: parliament
+microphone: broadcast
+access:
+  type: huggingface
+  repo_id: facebook/voxpopuli
+  audio_column: audio
+  text_column: normalized_text
+licence:
+  spdx: CC0-1.0
+  evidence:
+    type: dataset_card
+    url: https://huggingface.co/datasets/facebook/voxpopuli
+    quote: "The dataset is distributed under CC0 license."
+    captured_at: 2026-09-25
+  attribution: "VoxPopuli (Wang et al., 2021), CC0 1.0, {url}"
+filters:
+  min_duration_s: 3
+expected_hours: 1200
+has_transcripts: true
+background_tags: [plenary]
+engine_training_overlap: []
+homepage: https://github.com/facebookresearch/voxpopuli
+notes: >
+  Segment-level transcripts with speaker ids. Formal address by surname; first names are
+  rare. Used mainly as negative hours and for the cross-language condition. One config
+  per language is loaded (en, de, fr, es).

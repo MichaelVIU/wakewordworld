@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+dist/
+build/
+.coverage
+htmlcov/
+
+# Data: audio, originals and derived artefacts never go into git
+data/
+!data/README.md
+*.wav
+*.flac
+*.mp3
+*.opus
+*.ogg
+*.m4a
+*.mp4
+*.webm
+*.parquet
+!tests/fixtures/**/*.parquet
+!manifests/**/*.parquet
+!results/**/*.parquet
+
+# Secrets and local config
+.env
+*.local.yaml
+.hf_token
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

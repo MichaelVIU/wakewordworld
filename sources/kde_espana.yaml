@@ -1,0 +1,29 @@
+id: kde_espana
+name: KDE España podcast (archive.org uploads)
+languages: [es]
+domain: podcast
+microphone: close
+access:
+  type: internet_archive
+  query: "creator:\"KDE España\" AND mediatype:audio"
+  licence_urls:
+    - "http://creativecommons.org/licenses/by-sa/4.0/"
+    - "https://creativecommons.org/licenses/by-sa/4.0/"
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: api_field
+    url: https://archive.org/advancedsearch.php?q=creator%3A%22KDE+Espa%C3%B1a%22&fl%5B%5D=licenseurl&output=json
+    quote: "licenseurl: http://creativecommons.org/licenses/by-sa/4.0/ (on the organisation's own uploads)"
+    captured_at: 2026-09-26
+  attribution: "KDE España podcast, {title}, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 1200
+expected_hours: 94
+background_tags: [home]
+homepage: https://www.kde-espana.org
+notes: >
+  Round table of three to six members with first names throughout. The iVoox feed
+  carries no licence; the organisation's own archive.org uploads do. Confirm by e-mail
+  before the first public release (tracked in docs/legal/relicensing.md).

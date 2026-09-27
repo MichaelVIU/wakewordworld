@@ -1,0 +1,31 @@
+id: hackerpublicradio
+name: Hacker Public Radio
+languages: [en]
+domain: podcast
+microphone: close
+access:
+  type: internet_archive
+  query: "collection:hackerpublicradio AND mediatype:audio"
+  licence_urls:
+    - "http://creativecommons.org/licenses/by-sa/4.0/"
+    - "https://creativecommons.org/licenses/by-sa/4.0/"
+  formats: ["VBR MP3", "MP3", "Ogg Vorbis", "FLAC", "Ogg Opus"]
+licence:
+  spdx: CC-BY-SA-4.0
+  per_item: true
+  evidence:
+    type: page
+    url: https://hackerpublicradio.org/about.html
+    quote: "Unless otherwise stated, our shows are released under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) license."
+    captured_at: 2026-09-26
+  attribution: "Hacker Public Radio, {title} by {author}, CC BY-SA 4.0, {url}"
+filters:
+  min_duration_s: 300
+expected_hours: 2500
+background_tags: [home, kitchen, car, outdoors]
+homepage: https://hackerpublicradio.org
+notes: >
+  Community show, one episode per weekday since 2005, 4,441 items on the Internet Archive.
+  Many multi-host chats recorded at home with natural background. The per-item
+  licenseurl on archive.org is authoritative; items without a CC BY-SA licenseurl are
+  kept as tier B.

@@ -1,0 +1,28 @@
+id: libre_a_vous
+name: Libre à vous ! (Radio Cause Commune / April)
+languages: [fr]
+domain: radio
+microphone: broadcast
+access:
+  type: rss
+  url: https://www.libreavous.org/rss
+  read_item_licence: true
+licence:
+  spdx: CC-BY-SA-2.0
+  evidence:
+    type: page
+    url: https://www.libreavous.org/apropos
+    quote: "L'émission est diffusée selon les termes d'au moins une des licences suivantes : licence Art libre 1.3 ou ultérieure, Creative Commons By Sa 2.0 ou ultérieure, GNU FDL 1.3 ou ultérieure."
+    captured_at: 2026-09-26
+  attribution: "Libre à vous !, {title}, April / Radio Cause Commune, CC BY-SA 2.0+, {url}"
+filters:
+  min_duration_s: 1800
+  exclude_title_regex: "(?i)pause musicale|musique"
+expected_hours: 660
+has_transcripts: true
+background_tags: [studio]
+homepage: https://www.libreavous.org
+notes: >
+  Weekly 90-minute live magazine with host, columnists and guests addressed by first name.
+  Full transcripts on librealire.org are linked from the feed. Music segments inside
+  episodes carry their own licences and are tagged for exclusion at index time.

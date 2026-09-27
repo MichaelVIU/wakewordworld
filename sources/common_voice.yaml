@@ -1,0 +1,30 @@
+id: common_voice
+name: Mozilla Common Voice (scripted, validated)
+languages: [en, de, fr, es]
+domain: read
+microphone: phone
+access:
+  type: huggingface
+  repo_id: fsicoli/common_voice_22_0
+  audio_column: audio
+  text_column: sentence
+licence:
+  spdx: CC0-1.0
+  evidence:
+    type: dataset_card
+    url: https://github.com/common-voice/cv-dataset
+    quote: "Common Voice is released under CC0 (public domain dedication)."
+    captured_at: 2026-09-25
+  attribution: "Mozilla Common Voice, CC0 1.0, {url}"
+filters:
+  min_duration_s: 1
+expected_hours: 5900
+has_transcripts: true
+background_tags: []
+engine_training_overlap: [openwakeword, microwakeword]
+homepage: https://commonvoice.mozilla.org
+notes: >
+  Read sentences, huge speaker diversity, demographic metadata. Only validated clips are
+  used. The Multilingual Spoken Words Corpus links back to these clips, which gives
+  word-level positions for first names. Listed engines used Common Voice audio or
+  features in training (per their documentation); results on this source are flagged.

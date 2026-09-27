@@ -65,6 +65,11 @@ Pipeline stages: `sources` -> `ingest` -> `transcribe` -> `index` -> `manifest` 
 Audio and other large artefacts live under `./data` (or `WWW_DATA_ROOT`) and are never
 committed.
 
+## Report
+
+The current internal report (pipeline validation, not a published result) is built from
+`results/` on every push: https://michaelviu.github.io/wakewordworld/
+
 ## Documents
 
 - `docs/PLAN.md` — the project plan and milestones

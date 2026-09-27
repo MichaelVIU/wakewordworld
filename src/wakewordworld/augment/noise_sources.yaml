@@ -1,0 +1,171 @@
+# Registry of openly licensed noise and room-impulse-response sets used by the
+# augmentation lane. Licences were read from the linked pages on 2026-09-27.
+# `download_default: false` sets are listed for completeness but are not fetched by
+# `augment noise download` unless --force-unverified is given.
+sets:
+  - id: demand
+    name: "DEMAND: Diverse Environments Multichannel Acoustic Noise Database"
+    kind: noise
+    licence: CC-BY-4.0
+    licence_evidence: "Zenodo record metadata license id cc-by-4.0 (record 1227121, read 2026-09-27); the record description also cites the original CC BY-SA 3.0 statement"
+    url: https://zenodo.org/records/1227121
+    attribution: "DEMAND (Thiemann, Ito, Vincent 2013), CC BY 4.0, https://zenodo.org/records/1227121"
+    glob: "**/*.wav"
+    sample_rate: 16000
+    download_default: true
+    archives:
+      - url: https://zenodo.org/api/records/1227121/files/DKITCHEN_16k.zip/content
+        file: DKITCHEN_16k.zip
+        md5: 7ffbf52d7f4699f96927846103dc8788
+        categories: [kitchen, domestic]
+      - url: https://zenodo.org/api/records/1227121/files/DLIVING_16k.zip/content
+        file: DLIVING_16k.zip
+        md5: 46741384d9e434a0bd8b3ec1830b6052
+        categories: [living_room, domestic]
+      - url: https://zenodo.org/api/records/1227121/files/DWASHING_16k.zip/content
+        file: DWASHING_16k.zip
+        md5: 7e5ee9437ce9409c5f9a779b6212a240
+        categories: [washing, domestic]
+      - url: https://zenodo.org/api/records/1227121/files/OOFFICE_16k.zip/content
+        file: OOFFICE_16k.zip
+        md5: 7b61cc2d182d5a654cb9c3101ddd4041
+        categories: [office, hvac]
+      - url: https://zenodo.org/api/records/1227121/files/OMEETING_16k.zip/content
+        file: OMEETING_16k.zip
+        md5: 62f7cfe7fe6d30b7d8a215fe37c2dfd2
+        categories: [office, meeting]
+      - url: https://zenodo.org/api/records/1227121/files/OHALLWAY_16k.zip/content
+        file: OHALLWAY_16k.zip
+        md5: fe918bbb0e63e73d09ba7f4843ef33f1
+        categories: [office, hallway]
+      - url: https://zenodo.org/api/records/1227121/files/PCAFETER_16k.zip/content
+        file: PCAFETER_16k.zip
+        md5: 99927d148128254141a9417d051510bb
+        categories: [cafe, babble]
+      - url: https://zenodo.org/api/records/1227121/files/PRESTO_16k.zip/content
+        file: PRESTO_16k.zip
+        md5: b98d2e6854eeebb397f29a8ad7457092
+        categories: [cafe, babble]
+      - url: https://zenodo.org/api/records/1227121/files/PSTATION_16k.zip/content
+        file: PSTATION_16k.zip
+        md5: d7448009f6c2aeb6ba570375df1750a3
+        categories: [station, babble]
+      - url: https://zenodo.org/api/records/1227121/files/SCAFE_16k.zip/content
+        file: SCAFE_16k.zip
+        md5: unpinned
+        categories: [cafe, street]
+      - url: https://zenodo.org/api/records/1227121/files/SPSQUARE_16k.zip/content
+        file: SPSQUARE_16k.zip
+        md5: 205d0e7b8fe74504a2f8d252fc414b9e
+        categories: [street]
+      - url: https://zenodo.org/api/records/1227121/files/STRAFFIC_16k.zip/content
+        file: STRAFFIC_16k.zip
+        md5: 2efa87262f272bbf9ba578088e81939c
+        categories: [street, traffic]
+      - url: https://zenodo.org/api/records/1227121/files/TBUS_16k.zip/content
+        file: TBUS_16k.zip
+        md5: 706b11b0d8504f9f3b3f3211e91b3863
+        categories: [transport]
+      - url: https://zenodo.org/api/records/1227121/files/TCAR_16k.zip/content
+        file: TCAR_16k.zip
+        md5: 4d930012796bd298932245a26189f973
+        categories: [transport, car]
+      - url: https://zenodo.org/api/records/1227121/files/TMETRO_16k.zip/content
+        file: TMETRO_16k.zip
+        md5: 95daf4df678e13b120e14211e6d89571
+        categories: [transport]
+      - url: https://zenodo.org/api/records/1227121/files/NPARK_16k.zip/content
+        file: NPARK_16k.zip
+        md5: 80f1385a34d7f1705758926b57f138ce
+        categories: [nature, outdoor]
+      - url: https://zenodo.org/api/records/1227121/files/NFIELD_16k.zip/content
+        file: NFIELD_16k.zip
+        md5: a740046c6f4e174e16f5d568aaec5024
+        categories: [nature, outdoor]
+      - url: https://zenodo.org/api/records/1227121/files/NRIVER_16k.zip/content
+        file: NRIVER_16k.zip
+        md5: 54264db61d3fe073fb81f2e40e0d19b5
+        categories: [nature, outdoor]
+
+  - id: musan
+    name: "MUSAN: music, speech and noise corpus"
+    kind: noise
+    licence: CC-BY-4.0
+    licence_evidence: "openslr.org/17: 'License: Attribution 4.0 International (CC BY 4.0)' (read 2026-09-27)"
+    url: https://www.openslr.org/17/
+    attribution: "MUSAN (Snyder, Chen, Povey 2015), CC BY 4.0, https://www.openslr.org/17/"
+    glob: "**/*.wav"
+    sample_rate: 16000
+    download_default: true
+    archives:
+      - url: https://www.openslr.org/resources/17/musan.tar.gz
+        file: musan.tar.gz
+        sha256: unpinned
+        size_note: "11 GB"
+        categories: []
+    path_categories:
+      "musan/music/": [music]
+      "musan/speech/": [babble]
+      "musan/noise/": [noise]
+
+  - id: rirs_noises
+    name: "OpenSLR 28: Room Impulse Response and Noise Database (real RIRs from AIR, RWCP, REVERB plus simulated rooms)"
+    kind: rir
+    licence: Apache-2.0
+    licence_evidence: "openslr.org/28: 'License: Apache 2.0' (read 2026-09-27)"
+    url: https://www.openslr.org/28/
+    attribution: "RIRS_NOISES (Ko et al. 2017), Apache 2.0, https://www.openslr.org/28/"
+    glob: "**/real_rirs_isotropic_noises/*.wav"
+    sample_rate: 16000
+    download_default: true
+    archives:
+      - url: https://www.openslr.org/resources/28/rirs_noises.zip
+        file: rirs_noises.zip
+        sha256: unpinned
+        size_note: "1.3 GB"
+        categories: [real_rir]
+    path_categories:
+      "RIRS_NOISES/real_rirs_isotropic_noises/": [real_rir]
+      "RIRS_NOISES/simulated_rirs/": [simulated_rir]
+
+  - id: but_reverbdb
+    name: "BUT Speech@FIT Reverb Database (RIR-only release)"
+    kind: rir
+    licence: CC-BY-4.0
+    licence_evidence: "speech.fit.vutbr.cz: 'The database has CC-BY 4.0 license' (read 2026-09-27)"
+    url: https://speech.fit.vutbr.cz/software/but-speech-fit-reverb-database
+    attribution: "BUT ReverbDB (Szöke et al. 2019), CC BY 4.0, https://speech.fit.vutbr.cz/software/but-speech-fit-reverb-database"
+    glob: "**/RIR/**/*.wav"
+    sample_rate: 16000
+    download_default: false
+    size_note: "8.7 GB; enable explicitly"
+    archives:
+      - url: https://speech.fit.vutbr.cz/files/BUT_ReverbDB_rel_19_06_RIR-Only.tgz
+        file: BUT_ReverbDB_rel_19_06_RIR-Only.tgz
+        sha256: unpinned
+        categories: [real_rir, office, lecture_room, meeting]
+
+  - id: air
+    name: "Aachen Impulse Response Database"
+    kind: rir
+    licence: MIT
+    licence_evidence: "iks.rwth-aachen.de: 'For license information see the included MIT license file' (read 2026-09-27); distributed as a MATLAB package, not directly usable"
+    url: https://www.iks.rwth-aachen.de/en/research/tools-downloads/databases/aachen-impulse-response-database/
+    attribution: "AIR database (Jeub, Schäfer, Vary 2009), MIT, https://www.iks.rwth-aachen.de/en/research/tools-downloads/databases/aachen-impulse-response-database/"
+    glob: "**/*.wav"
+    sample_rate: 48000
+    download_default: false
+    archives: []
+
+  - id: fsd50k
+    name: "FSD50K (only CC0 and CC BY clips may be used)"
+    kind: noise
+    licence: per-item
+    licence_evidence: "Zenodo record 4060432: 'Each clip has its own license as defined by the clip uploader'; CC0 19,873 / CC BY 23,506 / CC BY-NC 6,041 clips (read 2026-09-27)"
+    url: https://zenodo.org/records/4060432
+    attribution: "FSD50K (Fonseca et al. 2022), per-clip CC0/CC BY, https://zenodo.org/records/4060432"
+    glob: "**/*.wav"
+    sample_rate: 44100
+    download_default: false
+    size_note: "needs a licence-filter step over FSD50K.metadata; not automated yet"
+    archives: []

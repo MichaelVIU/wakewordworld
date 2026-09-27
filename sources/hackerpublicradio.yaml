@@ -10,6 +10,7 @@ access:
     - "http://creativecommons.org/licenses/by-sa/4.0/"
     - "https://creativecommons.org/licenses/by-sa/4.0/"
   formats: ["VBR MP3", "MP3", "Ogg Vorbis", "FLAC", "Ogg Opus"]
+  sort: "identifier desc"
 licence:
   spdx: CC-BY-SA-4.0
   per_item: true

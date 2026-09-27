@@ -1,0 +1,32 @@
+id: openwakeword
+name: openWakeWord
+homepage: https://github.com/dscripka/openWakeWord
+licence:
+  runtime: Apache-2.0
+  models: CC-BY-NC-SA-4.0 (bundled pre-trained models)
+version: openwakeword==0.6.0
+extra: engines-oww
+adapter: wakewordworld.engines.openwakeword
+models:
+- name: alexa
+  file: alexa_v0.1.onnx
+  sha256: unpinned
+- name: hey_jarvis
+  file: hey_jarvis_v0.1.onnx
+  sha256: unpinned
+- name: hey_mycroft
+  file: hey_mycroft_v0.1.onnx
+  sha256: unpinned
+wake_words:
+- alexa
+- hey_jarvis
+- hey_mycroft
+custom_word_method: training
+on_device: true
+score_semantics: 'Raw per-80 ms frame score (0-1) from Model.predict; no patience/debounce used.
+
+  '
+notes: 'Built-in models are downloaded by the library into its package directory; the Dockerfile pre-downloads
+  them so evaluation runs offline.
+
+  '

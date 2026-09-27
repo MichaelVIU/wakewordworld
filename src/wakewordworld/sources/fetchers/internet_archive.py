@@ -71,7 +71,7 @@ class InternetArchiveFetcher:
                 ("rows", ROWS),
                 ("page", page),
                 ("output", "json"),
-                ("sort[]", "identifier asc"),
+                ("sort[]", access.sort),
             ]
             params += [
                 ("fl[]", f)

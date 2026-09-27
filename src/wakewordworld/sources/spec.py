@@ -175,6 +175,10 @@ class InternetArchiveAccess(BaseModel):
         description="Accepted licenseurl values; empty means use the source licence.",
     )
     formats: list[str] = Field(default_factory=lambda: ["VBR MP3", "MP3", "Ogg Vorbis", "FLAC"])
+    sort: str = Field(
+        default="identifier asc",
+        description="advancedsearch sort expression, e.g. 'identifier desc' or 'date desc'.",
+    )
 
 
 class CccAccess(BaseModel):

@@ -1,0 +1,38 @@
+id: microwakeword
+name: microWakeWord (via pymicro-wakeword)
+homepage: https://github.com/OHF-Voice/micro-wake-word
+licence:
+  runtime: Apache-2.0
+  models: Apache-2.0 (esphome/micro-wake-word-models)
+version: pymicro-wakeword==2.5.0
+extra: engines-mww
+adapter: wakewordworld.engines.microwakeword
+models:
+- name: okay_nabu
+  file: okay_nabu.tflite
+  sha256: unpinned
+- name: hey_jarvis
+  file: hey_jarvis.tflite
+  sha256: unpinned
+- name: hey_mycroft
+  file: hey_mycroft.tflite
+  sha256: unpinned
+- name: alexa
+  file: alexa.tflite
+  sha256: unpinned
+wake_words:
+- okay_nabu
+- hey_jarvis
+- hey_mycroft
+- alexa
+custom_word_method: training
+on_device: true
+score_semantics: 'Max over the frame of the library''s sliding-window mean probability (window 5, stride
+  3 x 10 ms). With native_detection=true the shipped cutoff (e.g. 0.85 for okay_nabu) is applied by the
+  library and the adapter returns 1.0/0.0.
+
+  '
+notes: 'Models ship inside the pymicro-wakeword wheel; trained_languages metadata lists en, nl, fr, de,
+  it, es, sv for okay_nabu.
+
+  '

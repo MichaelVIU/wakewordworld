@@ -194,7 +194,7 @@ class IngestPipeline:
             )
             raise RuntimeError(msg) from exc
         items: list[FetchedItem] = []
-        for item in fetch_source(spec, client=self._http()):
+        for item in fetch_source(spec, client=self._http(), max_items=self.options.max_items):
             if item.licence.tier is LicenceTier.FORBIDDEN:
                 continue
             items.append(item)

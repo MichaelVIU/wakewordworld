@@ -132,13 +132,22 @@ def _capped(items: Iterator[FetchedItem], max_items: int | None) -> Iterator[Fet
         yield item
 
 
-def fetch_source(spec: SourceSpec, *, client: httpx.Client | None = None) -> list[FetchedItem]:
-    """Run the registered fetcher for ``spec`` and return its items as a list."""
+def fetch_source(
+    spec: SourceSpec, *, client: httpx.Client | None = None, max_items: int | None = None
+) -> list[FetchedItem]:
+    """Run the registered fetcher for ``spec`` and return its items as a list.
+
+    Discovery stops as soon as the effective cap (the smaller of ``max_items`` and the
+    spec's ``filters.max_items``) is reached, so large catalogues are not enumerated
+    for a development slice.
+    """
+    caps = [c for c in (max_items, spec.filters.max_items) if c is not None]
+    cap = min(caps) if caps else None
     fetcher = registry.for_spec(spec)
     if client is None:
         with http_client() as own:
-            return list(_capped(fetcher.fetch(spec, client=own), spec.filters.max_items))
-    return list(_capped(fetcher.fetch(spec, client=client), spec.filters.max_items))
+            return list(_capped(fetcher.fetch(spec, client=own), cap))
+    return list(_capped(fetcher.fetch(spec, client=client), cap))
 
 
 # Register all fetchers (import for side effects).

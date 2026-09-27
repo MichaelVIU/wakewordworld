@@ -272,8 +272,16 @@ def run_evaluation(data_root: DataRoot, engine: Engine, plan: EvalPlan, out_dir:
             assert isinstance(frr_ci, dict)
             assert isinstance(aut_ci, tuple)
 
-            # Latencies and confusable false accepts at the 0.5 FA/h operating point.
+            # Latencies and confusable false accepts at the 0.5 FA/h operating point;
+            # when no threshold reaches that budget (typical for ASR-grammar baselines),
+            # fall back to the operating point with the fewest false accepts so the
+            # latency column is still informative.
             thr05 = summ.threshold_at_fa[0.5]
+            if thr05 is None:
+                curve_pts = det_curve(table).points
+                finite = [p for p in curve_pts if p.fa_per_hour == p.fa_per_hour]
+                if finite:
+                    thr05 = min(finite, key=lambda p: (p.fa_per_hour, p.frr)).threshold
             latencies: list[float] = []
             n_conf_fa = 0
             n_conf = sum(1 for c in ids for o in occ.get(c, []) if o.confusable)

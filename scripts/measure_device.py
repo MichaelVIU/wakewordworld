@@ -20,6 +20,11 @@ import sys
 import time
 from pathlib import Path
 
+from wakewordworld.engines.registry import load_engine
+from wakewordworld.eval.protocol import stream_chunk
+from wakewordworld.eval.run import load_manifest_rows
+from wakewordworld.util.paths import DataRoot
+
 
 def _peak_rss_mb() -> float:
     ru = resource.getrusage(resource.RUSAGE_SELF)
@@ -38,11 +43,6 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--label", default=platform.node(), help="device label, e.g. pi5")
     args = ap.parse_args()
-
-    from wakewordworld.engines.registry import load_engine
-    from wakewordworld.eval.protocol import stream_chunk
-    from wakewordworld.eval.run import load_manifest_rows
-    from wakewordworld.util.paths import DataRoot
 
     data_root = DataRoot.resolve(args.data_root)
     rows = load_manifest_rows(args.manifest)[: args.limit]

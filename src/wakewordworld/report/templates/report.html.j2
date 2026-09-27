@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<style>
+:root { --bg:#ffffff; --fg:#1b1b1b; --muted:#5f6368; --line:#d9dde3; --head:#f3f5f7; --accent:#0072B2; --warn:#b26a00; --grid:#e6e9ee; --grid2:#b8bec7; }
+@media (prefers-color-scheme: dark) { :root { --bg:#111417; --fg:#e8eaed; --muted:#9aa0a6; --line:#2c3238; --head:#1a1f24; --accent:#56B4E9; --warn:#E69F00; --grid:#242a31; --grid2:#3c444d; } }
+html { background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+body { margin:0 auto; padding:24px 16px 64px; max-width:1180px; }
+h1 { font-size:1.7rem; margin:0 0 .25rem; } h2 { font-size:1.25rem; margin:2.2rem 0 .6rem; border-bottom:1px solid var(--line); padding-bottom:.25rem; } h3 { font-size:1.05rem; margin:1.4rem 0 .5rem; }
+p.meta, .muted { color:var(--muted); }
+table { border-collapse:collapse; width:100%; margin:.5rem 0 1rem; font-variant-numeric:tabular-nums; }
+th, td { border-bottom:1px solid var(--line); padding:.35rem .5rem; text-align:right; vertical-align:middle; }
+th { background:var(--head); font-weight:600; } th[scope=row], td.text, th.text { text-align:left; }
+tr.preliminary td, tr.preliminary th { color:var(--muted); font-style:italic; }
+.tag { display:inline-block; font-size:.72rem; font-style:normal; padding:0 .4em; border-radius:3px; border:1px solid var(--line); margin-left:.4em; vertical-align:middle; }
+.tag.verified { border-color:var(--accent); color:var(--accent); } .tag.prelim { border-color:var(--warn); color:var(--warn); }
+.howto { background:var(--head); border-left:4px solid var(--accent); padding:.75rem 1rem; margin:1rem 0; }
+.howto ul { margin:.4rem 0 0 1.1rem; }
+.plots { display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:16px; }
+svg.det { max-width:100%; height:auto; background:transparent; }
+.det-bg { fill:var(--bg); stroke:var(--line); } .det-grid { stroke:var(--grid); stroke-width:1; } .det-grid-budget { stroke:var(--grid2); stroke-dasharray:3 3; }
+.det-tick { font-size:11px; fill:var(--muted); } .det-label { font-size:12px; fill:var(--fg); } .det-title { font-size:13px; font-weight:600; fill:var(--fg); } .det-legend { font-size:12px; fill:var(--fg); }
+svg.ci { vertical-align:middle; } .ci-axis { stroke:var(--line); stroke-width:1; } .ci-range { stroke:var(--accent); stroke-width:3; } .ci-point { fill:var(--fg); }
+code { font-size:.85em; } footer { margin-top:3rem; font-size:.85rem; color:var(--muted); }
+@media print { body { max-width:none; } .plots { grid-template-columns:1fr 1fr; } h2 { page-break-after:avoid; } table { page-break-inside:avoid; } }
+</style>
+</head>
+<body>
+<header>
+<h1>{{ title }}</h1>
+<p class="meta">Benchmark manifest {{ manifest_versions | join(", ") }} · harness {{ harness_version }} · {{ n_runs }} run{{ "s" if n_runs != 1 }} · generated {{ generated_at }}</p>
+</header>
+
+<section class="howto" aria-labelledby="howto">
+<strong id="howto">How to read this</strong>
+<ul>
+<li><strong>Curves, not points.</strong> Every engine is swept over its whole score range. The tables read the false reject rate (FRR) off that curve at fixed false-accept budgets (0.1, 0.5, 1 and 3 false accepts per hour).</li>
+<li><strong>Intervals.</strong> Brackets are 95&nbsp;% cluster-bootstrap intervals over parent files (1,000 resamples), not over chunks, so a three-hour recording counts once.</li>
+<li><strong>Ranking.</strong> AUT is the mean best-achievable FRR over log false-accept budgets from 0.1 to 3 per hour (lower is better). Engines are ordered by the <em>pessimistic</em> end of their AUT interval. Rows with fewer than {{ min_positives }} positives or {{ min_units }} parent files are shown as preliminary and not ranked.</li>
+<li><strong>Sealed vs public.</strong> A tenth of the parent files are withheld from the public release. The gap between sealed and public results is reported per engine as a contamination signal.</li>
+<li><strong>Verified</strong> marks runs the maintainers executed from a pinned container image. Nothing here is self-reported.</li>
+</ul>
+</section>
+
+{% for b in boards %}
+<h2 id="board-{{ loop.index }}">Wake word “{{ b.wake_word }}”</h2>
+<table>
+<caption class="muted">Pooled over all languages and domains. FRR at {{ fa_budget }} FA/h is the headline budget; all four budgets shown.</caption>
+<thead><tr>
+<th scope="col">#</th><th scope="col" class="text">Engine</th><th scope="col">AUT [95&nbsp;% CI]</th><th scope="col"></th>
+{% for lbl in budget_labels %}<th scope="col">{{ lbl }}</th>{% endfor %}
+<th scope="col">Confusable FA / 1000</th><th scope="col">Latency p50 (s)</th><th scope="col">RTF</th><th scope="col">Positives</th><th scope="col">Files</th><th scope="col">Negative h</th>
+</tr></thead>
+<tbody>
+{% for r in b.rows %}
+<tr{% if r.preliminary %} class="preliminary"{% endif %}>
+<td>{{ r.rank }}</td>
+<th scope="row" class="text">{{ r.engine }}{% if r.verified %}<span class="tag verified">verified</span>{% endif %}{% if r.preliminary %}<span class="tag prelim">preliminary</span>{% endif %}</th>
+<td>{{ r.aut }}</td><td>{{ r.aut_bar }}</td>
+{% for v in r.budgets %}<td>{{ v }}</td>{% endfor %}
+<td>{{ r.confusable }}</td><td>{{ r.latency }}</td><td>{{ r.rtf }}</td><td>{{ r.n_positives }}</td><td>{{ r.n_units }}</td><td>{{ r.negative_hours }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="plots">{{ b.det }}</div>
+{% endfor %}
+{% if not boards %}<p class="muted">No runs found.</p>{% endif %}
+
+<h2 id="per-language">Per language (FRR at {{ fa_budget }} FA/h)</h2>
+{% if per_language.rows %}
+<table><thead><tr><th scope="col" class="text">Engine</th><th scope="col" class="text">Wake word</th>{% for c in per_language.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr></thead>
+<tbody>{% for r in per_language.rows %}<tr><th scope="row" class="text">{{ r.engine }}</th><td class="text">{{ r.wake_word }}</td>{% for v in r.cells %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}</tbody></table>
+{% else %}<p class="muted">No language slices in these runs.</p>{% endif %}
+
+<h2 id="per-domain">Per domain (FRR at {{ fa_budget }} FA/h)</h2>
+{% if per_domain.rows %}
+<table><thead><tr><th scope="col" class="text">Engine</th><th scope="col" class="text">Wake word</th>{% for c in per_domain.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr></thead>
+<tbody>{% for r in per_domain.rows %}<tr><th scope="row" class="text">{{ r.engine }}</th><td class="text">{{ r.wake_word }}</td>{% for v in r.cells %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}</tbody></table>
+{% else %}<p class="muted">No domain slices in these runs.</p>{% endif %}
+
+{% if engine_plots %}
+<h2 id="per-engine">Per engine, per language</h2>
+<div class="plots">{% for p in engine_plots %}{{ p.det }}{% endfor %}</div>
+{% endif %}
+
+{% if sealed_gap %}
+<h2 id="sealed">Sealed vs public</h2>
+<table><thead><tr><th scope="col" class="text">Engine</th><th scope="col" class="text">Wake word</th><th scope="col">AUT public</th><th scope="col">AUT sealed</th><th scope="col">Gap</th></tr></thead>
+<tbody>{% for r in sealed_gap %}<tr><th scope="row" class="text">{{ r.engine }}</th><td class="text">{{ r.wake_word }}</td><td>{{ r.aut_public }}</td><td>{{ r.aut_sealed }}</td><td>{{ r.gap }}</td></tr>{% endfor %}</tbody></table>
+{% endif %}
+
+<h2 id="provenance">Run provenance</h2>
+<table>
+<thead><tr><th scope="col" class="text">Run</th><th scope="col" class="text">Engine</th><th scope="col" class="text">Manifest</th><th scope="col" class="text">Harness</th><th scope="col" class="text">Created</th><th scope="col" class="text">Hardware</th><th scope="col" class="text">Image</th><th scope="col" class="text">Models</th><th scope="col" class="text">Detection</th><th scope="col">Chunks</th><th scope="col">Audio h</th></tr></thead>
+<tbody>
+{% for r in provenance %}
+<tr><th scope="row" class="text"><code>{{ r.run_id }}</code>{% if r.verified %}<span class="tag verified">verified</span>{% endif %}</th><td class="text">{{ r.engine }}</td><td class="text">{{ r.manifest_version }}</td><td class="text">{{ r.harness_version }}</td><td class="text">{{ r.created_at }}</td><td class="text">{{ r.hardware }}</td><td class="text"><code>{{ r.container_digest }}</code></td><td class="text"><code>{{ r.model_hashes }}</code></td><td class="text"><code>{{ r.detection }}</code></td><td>{{ r.n_chunks }}</td><td>{{ r.audio_hours }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+<footer>
+<p><strong>Caveats.</strong> The benchmark measures acoustic detection of a word; it cannot, and no engine can, tell a name used as an address from a name mentioned in a sentence. Results on sources that an engine is documented to have trained on are excluded from the headline slice where the manifest carries that tag (<code>engine_training_overlap</code>); the per-source slices are in the run's <code>summary.parquet</code>. Raw per-frame scores are published with each run so anyone can re-threshold.</p>
+<p>WakeWordWorld · methodology in <code>docs/methodology/</code> · report generated by <code>wakewordworld report build</code>.</p>
+</footer>
+</body>
+</html>

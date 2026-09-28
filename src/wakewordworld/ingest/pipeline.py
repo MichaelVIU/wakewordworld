@@ -316,6 +316,11 @@ class IngestPipeline:
                         measure=self.options.measure_quality,
                     )
                     write_jsonl(self._files_path(source_id), [rec], key="file_id")
+                    text = item.extra.get("text")
+                    if text and member is None:
+                        ref = self.data_root.cache / "reftext" / spec.id / f"{rec.file_id}.txt"
+                        ref.parent.mkdir(parents=True, exist_ok=True)
+                        ref.write_text(text.strip() + "\n", encoding="utf-8")
                     existing.add(sha)
                     count += 1
             except (FfmpegError, OSError, ValueError) as exc:

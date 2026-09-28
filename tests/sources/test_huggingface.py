@@ -87,3 +87,29 @@ def test_huggingface_tree_walk_with_config_and_cursor(
     assert it.extra["text_column"] == "sentence"
     assert seen_auth
     assert all(a == "Bearer secret" for a in seen_auth)
+
+
+@respx.mock
+def test_audio_files_with_folder_label(client: httpx.Client) -> None:
+    """Individual audio files become items whose reference text is the folder name."""
+    spec = make_spec(
+        {
+            "type": "huggingface",
+            "repo_id": "Picovoice/wake-word-benchmark",
+            "audio_files": True,
+            "label_from_folder": True,
+        }
+    )
+    respx.get(url__regex=rf"{HUB}/api/datasets/Picovoice/wake-word-benchmark/tree/main.*").mock(
+        return_value=httpx.Response(
+            200,
+            json=[
+                {"type": "file", "path": "README.md", "size": 10},
+                {"type": "file", "path": "data/alexa/0.flac", "size": 1000},
+                {"type": "file", "path": "data/smart_mirror/1.flac", "size": 1000},
+            ],
+        )
+    )
+    items = fetch_source(spec, client=client)
+    assert sorted(it.extra["text"] for it in items) == ["alexa", "smart mirror"]
+    assert all(it.media_type == "audio/flac" for it in items)

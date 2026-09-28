@@ -1,0 +1,32 @@
+id: picovoice_wake_word_benchmark
+name: Picovoice wake-word-benchmark recordings ("alexa")
+languages: [en]
+domain: other
+microphone: phone
+access:
+  type: huggingface
+  repo_id: Picovoice/wake-word-benchmark
+  audio_files: true
+  label_from_folder: true
+licence:
+  spdx: Apache-2.0
+  evidence:
+    type: dataset_card
+    url: https://huggingface.co/datasets/Picovoice/wake-word-benchmark
+    quote: "license: apache-2.0 (dataset card); GitHub repository Picovoice/wake-word-benchmark is Apache License 2.0"
+    captured_at: 2026-09-28
+  attribution: "Picovoice wake-word-benchmark recordings, Apache-2.0, {url}"
+filters:
+  min_duration_s: 0.3
+  include_title_regex: "^data/alexa/"
+expected_hours: 0.3
+has_transcripts: true
+background_tags: [crowdsourced_clip]
+engine_training_overlap: [openwakeword]
+homepage: https://github.com/Picovoice/wake-word-benchmark
+notes: >
+  329 crowd-sourced real recordings of the word "alexa" from more than 50 speakers, used
+  here as POSITIVES for the built-in "alexa" models so engines can be compared on one
+  word before name models exist. openWakeWord's README reports its "alexa" model was
+  evaluated (not trained) on these clips; flagged as overlap out of caution. Each clip is
+  one word, so the reference text is the folder name and the word spans the clip.

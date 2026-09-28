@@ -209,6 +209,16 @@ class HuggingFaceAccess(BaseModel):
     filter_expr: str | None = Field(
         default=None, description="Optional polars expression string applied to metadata."
     )
+    audio_files: bool = Field(
+        default=False,
+        description="Also yield individual audio files (wav/flac/mp3/ogg/opus) as items, "
+        "not only Parquet and archives.",
+    )
+    label_from_folder: bool = Field(
+        default=False,
+        description="Use the parent folder name of an audio file as its reference text "
+        "(underscores become spaces), e.g. data/alexa/12.flac -> 'alexa'.",
+    )
 
 
 class HttpArchiveAccess(BaseModel):

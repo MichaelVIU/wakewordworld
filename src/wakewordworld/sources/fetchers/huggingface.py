@@ -17,6 +17,13 @@ from wakewordworld.sources.spec import HuggingFaceAccess, Language, SourceSpec
 __all__ = ["HuggingFaceFetcher", "infer_language"]
 
 HUB = "https://huggingface.co"
+AUDIO_SUFFIXES = {
+    ".wav": "audio/x-wav",
+    ".flac": "audio/flac",
+    ".mp3": "audio/mpeg",
+    ".ogg": "audio/ogg",
+    ".opus": "audio/opus",
+}
 DATA_SUFFIXES = {
     ".parquet": "application/x-parquet",
     ".tar": "application/x-tar",
@@ -35,12 +42,21 @@ def infer_language(path: str) -> Language | None:
     return None
 
 
-def _media_type(path: str) -> str | None:
+def _media_type(path: str, *, audio_files: bool = False) -> str | None:
     lower = path.lower()
     for suffix in (".tar.gz", ".tgz", ".parquet", ".tar", ".zip"):
         if lower.endswith(suffix):
             return DATA_SUFFIXES[suffix]
+    if audio_files:
+        for suffix, mime in AUDIO_SUFFIXES.items():
+            if lower.endswith(suffix):
+                return mime
     return None
+
+
+def _folder_label(path: str) -> str:
+    parts = path.split("/")
+    return parts[-2].replace("_", " ").strip().lower() if len(parts) >= 2 else ""
 
 
 def _wanted(path: str, config: str | None, split: str | None) -> bool:
@@ -95,7 +111,7 @@ class HuggingFaceFetcher:
         single = spec.languages[0] if len(spec.languages) == 1 else None
         for entry in self._tree(client, access.repo_id, rev, ""):
             path = str(entry.get("path", ""))
-            media_type = _media_type(path)
+            media_type = _media_type(path, audio_files=access.audio_files)
             if media_type is None or not _wanted(path, access.config, access.split):
                 continue
             if not passes_filters(spec.filters, title=path, duration_s=None, published=None):
@@ -121,5 +137,10 @@ class HuggingFaceFetcher:
                     "split": access.split or "",
                     "size": str(entry.get("size", "")),
                     "revision": rev,
+                    **(
+                        {"text": _folder_label(path)}
+                        if access.label_from_folder and media_type.startswith("audio/")
+                        else {}
+                    ),
                 },
             )

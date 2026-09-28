@@ -65,3 +65,12 @@ def test_negative_seconds_merges_overlaps() -> None:
     # windows: [9.5, 11.0] and [10.3, 11.8] -> union [9.5, 11.8] = 2.3 s; confusable ignored
     assert abs(negative_seconds(100.0, occ, CFG) - (100.0 - 2.3)) < 1e-9
     assert negative_seconds(1.0, [Occurrence(0.0, 0.5)], CFG) == 0.0
+
+
+def test_unaligned_clip_occurrence_widens_window() -> None:
+    """A word spanning a whole clip (no alignment) accepts detections anywhere in it."""
+    occ = [Occurrence(0.0, 4.5)]
+    m = match_detections(np.array([1.0]), occ, CFG)
+    assert m.n_hits == 1
+    assert m.false_accepts == []
+    assert negative_seconds(4.5, occ, CFG) == 0.0

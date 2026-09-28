@@ -31,9 +31,12 @@ Applied identically to all engines, implemented in `wakewordworld.eval.detect`:
 1. A detection fires on a rising edge: score ≥ threshold where the previous frame was
    below.
 2. After a detection, further detections are suppressed for 1.0 s (debounce).
-3. A detection is a hit for a target occurrence if it fires within
-   [word end − 0.5 s, word end + 1.0 s]. Each detection matches at most one occurrence
-   and each occurrence at most one detection (earliest first).
+3. A detection is a hit for a target occurrence if it fires within the occurrence's hit
+   window [min(word start, word end − 0.5 s), word end + 1.0 s]. For precisely aligned
+   words that is [word end − 0.5 s, word end + 1.0 s]; for reference occurrences without
+   word alignment (single-word clips, where the word spans the clip) the window covers
+   the clip. Each detection matches at most one occurrence and each occurrence at most
+   one detection (earliest first).
 4. Every unmatched detection is a false accept. Every unmatched occurrence is a miss.
 5. Negative time is the chunk duration minus the union of the hit windows, so false
    accepts per hour are computed over time where the target word was not spoken.

@@ -145,11 +145,13 @@ class Summary:
 
 def threshold_grid(scores: NDArray[np.floating], n: int = 200) -> NDArray[np.float64]:
     """Thresholds spanning the observed score distribution plus the unit interval ends."""
+    uniform = np.linspace(0.0, 1.0, n + 1)
     if scores.size == 0:
-        return np.linspace(0.0, 1.0, n)
+        return np.unique(np.concatenate((uniform, [1.0 + 1e-9])))
+    # Quantiles follow the bulk of the distribution (mostly near zero); the uniform part
+    # keeps resolution in the high-score region where operating points live.
     qs = np.quantile(scores.astype(np.float64), np.linspace(0.0, 1.0, n))
-    grid = np.unique(np.concatenate(([0.0], qs, [1.0 + 1e-9])))
-    return grid
+    return np.unique(np.concatenate(([0.0], qs, uniform, [1.0 + 1e-9])))
 
 
 def det_curve(table: CountTable) -> DetCurve:

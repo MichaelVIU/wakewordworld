@@ -85,10 +85,17 @@ class ScoreTable:
         return pl.concat(frames)
 
     @classmethod
-    def from_polars(cls, df: pl.DataFrame, chunk_id: str) -> ScoreTable:
-        """Rebuild from long format."""
+    def from_polars(
+        cls, df: pl.DataFrame, chunk_id: str, wake_words: tuple[str, ...] | None = None
+    ) -> ScoreTable:
+        """Rebuild from long format.
+
+        ``wake_words`` fixes the column order (normally the engine's order); without it
+        columns are alphabetical, which must not be mixed with engine-ordered tables.
+        """
         sub = df.filter(pl.col("chunk_id") == chunk_id).sort(["wake_word", "frame"])
-        words = tuple(sub.get_column("wake_word").unique(maintain_order=True).to_list())
+        present = tuple(sub.get_column("wake_word").unique(maintain_order=True).to_list())
+        words = wake_words if wake_words is not None else present
         n = int(sub.get_column("frame").to_numpy().max()) + 1 if sub.height else 0
         arr = np.zeros((n, len(words)), dtype=np.float32)
         for j, w in enumerate(words):
@@ -102,9 +109,11 @@ class ScoreTable:
         self.to_polars().write_parquet(path, compression="zstd")
 
     @classmethod
-    def load(cls, path: Path, chunk_id: str) -> ScoreTable:
-        """Read Parquet."""
-        return cls.from_polars(pl.read_parquet(path), chunk_id)
+    def load(
+        cls, path: Path, chunk_id: str, wake_words: tuple[str, ...] | None = None
+    ) -> ScoreTable:
+        """Read Parquet (see :meth:`from_polars` for ``wake_words``)."""
+        return cls.from_polars(pl.read_parquet(path), chunk_id, wake_words)
 
 
 def iter_frames(path: Path) -> Iterator[NDArray[np.int16]]:

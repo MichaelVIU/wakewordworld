@@ -130,3 +130,18 @@ def test_run_evaluation_end_to_end(tmp_path: Path) -> None:
     assert (run_dir / "run.json").exists()
     assert (run_dir / "curves.parquet").exists()
     assert (root.scores / "toy").exists()
+
+
+def test_from_polars_keeps_requested_word_order(tmp_path: Path) -> None:
+    """Cached tables must come back in the engine's wake word order, not alphabetical."""
+    scores = np.zeros((4, 2), dtype=np.float32)
+    scores[2, 0] = 0.9  # column 0 = "okay_nabu"
+    table = ScoreTable(chunk_id="c", wake_words=("okay_nabu", "alexa"), scores=scores)
+    out = tmp_path / "s.parquet"
+    table.save(out)
+    again = ScoreTable.load(out, "c", ("okay_nabu", "alexa"))
+    assert again.wake_words == ("okay_nabu", "alexa")
+    assert again.scores[2, 0] == np.float32(0.9)
+    alphabetical = ScoreTable.load(out, "c")
+    assert alphabetical.wake_words == ("alexa", "okay_nabu")
+    assert alphabetical.scores[2, 1] == np.float32(0.9)

@@ -161,7 +161,7 @@ def _score_all(
         for row in rows:
             p = out_dir / f"{row.chunk_id}.parquet"
             if p.exists() and not force and row.chunk_id in cached_stats:
-                tables[row.chunk_id] = ScoreTable.load(p, row.chunk_id)
+                tables[row.chunk_id] = ScoreTable.load(p, row.chunk_id, engine.info.wake_words)
                 stats[row.chunk_id] = cached_stats[row.chunk_id]
                 continue
             audio = _chunk_audio(data_root, row)

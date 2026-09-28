@@ -1,0 +1,59 @@
+{
+  "run_id": "82f94fd8ed7d",
+  "created_at": "2026-09-28T12:51:56+00:00",
+  "harness_version": "0.1.0.dev0",
+  "manifest_version": "0.0.2",
+  "manifest_dir": "manifests/0.0.2-internal",
+  "engine_id": "microwakeword",
+  "engine_version": "2.5.0",
+  "model_hashes": {
+    "okay_nabu": "d89128c4d16a72de429119fb2254ce46649553c2a24f5dd840175c80d7b9d094",
+    "hey_jarvis": "21a7976add39ee24ec96c63d96b7aaa18e24d1d9824b963e451da8feb4b78b77",
+    "hey_mycroft": "c2a9b6ed51182db72e014781d5a4ece1929dc232a40b5b4be384f0295f0e1571",
+    "alexa": "9011a8155b04de858c48038529235cbc0e42e9fca05a55bf588cb80a653a723b"
+  },
+  "engine_config": {
+    "models": [
+      "okay_nabu",
+      "hey_jarvis",
+      "hey_mycroft",
+      "alexa"
+    ],
+    "score": "windowed",
+    "native_detection": false,
+    "cutoffs": {
+      "okay_nabu": 0.85,
+      "hey_jarvis": 0.97,
+      "hey_mycroft": 0.95,
+      "alexa": 0.9
+    },
+    "sliding_window_size": {
+      "okay_nabu": 5,
+      "hey_jarvis": 5,
+      "hey_mycroft": 5,
+      "alexa": 5
+    }
+  },
+  "wake_words": {
+    "okay_nabu": "okay nabu",
+    "hey_jarvis": "hey jarvis",
+    "hey_mycroft": "hey mycroft",
+    "alexa": "alexa"
+  },
+  "detection": {
+    "debounce_s": 1.0,
+    "pre_s": 0.5,
+    "post_s": 1.0
+  },
+  "n_chunks": 376,
+  "audio_hours": 11.49917236111111,
+  "hardware": "Darwin arm64 arm",
+  "container_digest": null,
+  "notes": null,
+  "languages": [
+    "de",
+    "en",
+    "es",
+    "fr"
+  ]
+}
